@@ -1,0 +1,128 @@
+@{
+    ViewBag.Title = "Login";
+    Layout = null;
+}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Screenshot - SBM Power BI</title>
+    <meta name="description" content="Snappy can capture and save screenshots automatically, with just your web browser.">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <link rel="apple-touch-icon" sizes="192x192" href="~/Theme/SNAPPY/img/maskable_icon_x192.png">
+    <link rel="icon" type="image/png" sizes="24x24" href="~/Theme/SNAPPY/img/icon_x24.png">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="shortcut icon" href="favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="color-scheme" content="dark">
+    <meta name="theme-color" content="#343a40">
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Snappy" />
+    <meta property="og:description" content="Snappy can capture and save screenshots automatically, with just your web browser." />
+    <meta property="og:image" content="https://thesnappy.app/img/maskable_icon_x512.png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <meta name="og:image:alt" content="Snappy icon" />
+    <meta name="twitter:card" content="summary" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script defer data-domain="thesnappy.app" src="https://plausible.io/js/script.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid container-lg">
+        <div class="mt-2">
+            <div class="col-12 mt-2">
+                <button type="button" id="capture-select-btn" class="btn btn-primary w-100 mb-2" aria-describedby="capture-select-status">
+                    <i class="bi bi-window me-2"></i>
+                    Select overlay
+                </button>
+                <div id="capture-select-status" class="text-secondary-color text-center w-100" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                    No capture target selected
+                </div>
+            </div>
+            <div class="col-12 mt-2">
+                <button type="button" id="folder-select-btn" class="btn btn-primary w-100 mb-2" aria-describedby="folder-select-status">
+                    <i class="bi bi-folder2-open me-2"></i>
+                    Select folder
+                </button>
+                <div id="folder-select-status" class="text-secondary-color text-center w-100">
+                    No folder selected
+                </div>
+            </div>
+            <div class="col-12 mt-2">
+                <form class="d-flex">
+                    <button type="button" id="capture-btn" class="btn btn-success w-100" disabled>
+                        <i class="bi bi-record2 me-2"></i>
+                        Capture
+                    </button>
+                </form>
+                <button type="button" id="capture-preview-btn" class="btn btn-outline-primary w-100">
+                    Toggle preview window
+                </button>
+            </div>
+           
+        </div>
+        <div class="row mt-sm-4 mt-md-5">
+            <div class="col-12">
+                @*<form>
+                    <fieldset>
+                        <legend>Capture settings</legend>
+                        <div class="mb-3">
+                            <label for="capture-interval" class="form-label">Capture interval</label>
+                            <input class="form-control" id="capture-interval" type="number" placeholder="5" value="5" min="1">
+                            <div class="form-text">
+                                The number of seconds between each capture. Faster intervals may not work properly on slow devices.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                          
+                        </div>
+                    </fieldset>
+                </form>*@
+                <form>
+                    <fieldset>
+                        <legend>File settings</legend>
+                        <div class="row">
+                            <div class="mb-3 col-sm-6">
+                                <label for="capture-img-format" class="form-label">Image format</label>
+                                <select id="capture-img-format" class="form-select">
+                                    <option value="image/png">PNG</option>
+                                    <option value="image/jpeg">JPG</option>
+                                    <option value="image/webp">WebP</option>
+                                </select>
+                            </div>
+                            <div class="mb-3 col-sm-6">
+                                <label for="capture-interval" class="form-label">Image quality</label>
+                                <input class="form-control" id="capture-img-quality" type="number" placeholder="92" value="100" min="1" max="100">
+
+                            </div>
+                        </div>
+                        <i>The image quality from 1-100, the standard is 92. This setting only affect .JPG and .WEBP only.</i>
+                    </fieldset>
+                </form>
+                <fieldset>
+                    <legend>Advanced settings</legend>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" value="" id="capture-low-latency-mode">
+                        <label class="form-check-label" for="capture-low-latency-mode">
+                            Low latency mode
+                        </label>
+                        <div class="form-text">
+                            This changes the screen capture from 1 FPS to the highest allowed frame rate, up to 120 FPS, but CPU and battery usage will be increased. You may need to reload Snappy for the change to take effect.
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+    <video id="capture-video" class="d-none" muted>
+
+        <canvas id="capture-canvas" class="d-none"></canvas>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/gh/webrtcHacks/adapter@v8.0.0/release/adapter.js"></script>
+        <script src="~/Theme/SNAPPY/js/modernizr-custom.js"></script>
+        <script src="~/Theme/SNAPPY/js/capture.js"></script>
+        <script src="~/Theme/SNAPPY/js/register-sw.js"></script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+@{
+    Layout = "~/Views/Shared/AspStudio/_Layout_Detail_New.cshtml";
+    ViewBag.Title = "Shared";
+}
+<!-- Add this in your HTML -->
+
+
+<style>
+    body {
+        margin: 0;
+    }
+    iframe {
+        display: block;
+        background: #ffffff;
+        border: none;
+        height: calc(100vh - 3.75rem);
+        width: 100%;
+    }
+</style>
+<style>
+    @@media print {
+        @@page {
+            size: A3 landscape; /* Set the paper size to A4 in landscape orientation */
+            margin: 0; /* Set all margins to zero */
+            n-up: 2; /* Set two pages per sheet */
+        }
+    }
+</style>
+
+<iframe id="iframepowerbi" sandbox="allow-same-origin allow-scripts allow-forms allow-popups" src="@ViewBag.REPORT_URL" onload="iframeLoaded()"></iframe>
+
+<script>
+
+    function iframeLoaded() {
+        GET_PERMISSION("VIEW", function (success) {
+            if (success === "True") {
+                
+            } else {
+                var iframeToRemove = document.getElementById("iframepowerbi");
+                if (iframeToRemove) {
+                    iframeToRemove.remove();
+                }
+                alert("Forbidden action.")
+            }
+            //HIDE();
+        });
+    }
+    function HIDE() {
+        window.open('CallPBI:0');
+    }
+    function SHOW() {
+        window.open('CallPBI:1');
+    }
+    @*function GET_PERMISSION(TYPE, callback) {
+        var URL = "@Url.Action("GET_PERMISSION", "MASTERDATA")";
+        $.ajax({
+            type: "POST",
+            url: URL,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var CREATE = data.res[0].ALLOW_CREATE;
+                var EXPORT = data.res[0].ALLOW_EXPORT;
+                var SHARE = data.res[0].ALLOW_SHARE;
+                var VIEW = data.res[0].ALLOW_VIEW;
+                if (TYPE == "CREATE") {
+                    callback(CREATE);
+                }
+                else if (TYPE == "EXPORT") {
+                    callback(EXPORT);
+                }
+                else if (TYPE == "SHARE") {
+                    callback(SHARE);
+                }
+                else if (TYPE == "VIEW") {
+                    callback(VIEW);
+                }
+                else {
+                    callback(false);
+                }
+            },
+            error: function (request, status, error) {
+                callback(false);
+            }
+        });
+    }*@
+</script>
+
+
+

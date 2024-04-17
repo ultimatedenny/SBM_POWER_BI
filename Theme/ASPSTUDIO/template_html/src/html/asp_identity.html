@@ -1,0 +1,72 @@
+@@include('./partial/head.html', {
+	"title": "ASP Identity", 
+	"css": [
+]})
+	<!-- BEGIN #app -->
+	<div id="app" class="app">
+		@@include('./partial/header.html')
+		
+		@@include('./partial/sidebar.html', {"aspIdentityClass": "active"})
+		
+		<!-- BEGIN #content -->
+		<div id="content" class="app-content">
+			<h1 class="page-header">
+				ASP Identity <small>page header description goes here...</small>
+			</h1>
+			
+			<p>
+				Below is the list of the pages included in ASP Identity.
+			</p>
+			<div class="row">
+				<div class="col-xl-6">
+					<ul>
+						<li>Account._StatusMessage</li>
+						<li>Account.AccessDenied</li>
+						<li>Account.ConfirmEmail</li>
+						<li>Account.ConfirmEmailChange</li>
+						<li>Account.ExternalLogin</li>
+						<li>Account.ForgotPassword</li>
+						<li>Account.ForgotPasswordConfirmation</li>
+						<li>Account.Lockout</li>
+						<li>Account.Login</li>
+						<li>Account.LoginWith2fa</li>
+						<li>Account.LoginWithRecoveryCode</li>
+						<li>Account.Logout</li>
+						<li>Account.Manage._Layout</li>
+						<li>Account.Manage._ManageNav</li>
+						<li>Account.Manage._StatusMessage</li>
+						<li>Account.Manage.ChangePassword</li>
+						<li>Account.Manage.DeletePersonalData</li>
+					</ul>
+				</div>
+				<div class="col-xl-6">
+					<ul>
+						<li>Account.Manage.Disable2fa</li>
+						<li>Account.Manage.DownloadPersonalData</li>
+						<li>Account.Manage.Email</li>
+						<li>Account.Manage.EnableAuthenticator</li>
+						<li>Account.Manage.ExternalLogins</li>
+						<li>Account.Manage.GenerateRecoveryCodes</li>
+						<li>Account.Manage.Index</li>
+						<li>Account.Manage.PersonalData</li>
+						<li>Account.Manage.ResetAuthenticator</li>
+						<li>Account.Manage.SetPassword</li>
+						<li>Account.Manage.ShowRecoveryCodes</li>
+						<li>Account.Manage.TwoFactorAuthentication</li>
+						<li>Account.Register</li>
+						<li>Account.RegisterConfirmation</li>
+						<li>Account.ResetPassword</li>
+						<li>Account.ResetPasswordConfirmation</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- END #content -->
+		
+		@@include('./partial/scroll-top-btn.html')
+		@@include('./partial/theme-panel.html')
+	</div>
+	<!-- END #app -->
+	
+@@include('./partial/script.html', {"script": [
+]})

@@ -1,0 +1,198 @@
+@{
+    Layout = "~/Views/Shared/AspStudio/_Layout.cshtml";
+    ViewBag.Title = "Dashboard";
+}
+<div class="d-flex align-items-center mb-3">
+    <div>
+        <h1 class="page-header mb-0">Dashboard</h1>
+    </div>
+    <div class="ms-auto">
+        <div class="btn-group ms-md-4 mt-md-0 mt-2">
+            <button type="button" class="btn btn-theme dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-exchange-alt fa-fw me-1"></i> Change View
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#" onclick="GOTO_GRID()">Grid</a>
+                <a class="dropdown-item" href="#" onclick="GOTO_LIST()">List <i class="fa fa-check fa-fw me-1"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <ul class="nav nav-tabs nav-tabs-v2 px-4">
+        <li class="nav-item me-3"><a href="#allTab" class="nav-link active px-2" data-bs-toggle="tab">All Reports</a></li>
+        <li class="nav-item me-3"><a href="#publishedTab" class="nav-link px-2" data-bs-toggle="tab"> Recent Add</a></li>
+        <li class="nav-item me-3"><a href="#expiredTab" class="nav-link px-2" data-bs-toggle="tab">Recent View</a></li>
+    </ul>
+    <div class="tab-content p-4">
+        <div class="tab-pane fade show active" id="allTab">
+            <div class="table-responsive">
+                <table class="table table-hover text-nowrap" id="table_1">
+                    <thead>
+                        <tr>
+                            <th class="border-top-0 pt-0 pb-2"></th>
+                            <th class="border-top-0 pt-0 pb-2">Report Name</th>
+                            <th class="border-top-0 pt-0 pb-2">Report Description</th>
+                            <th class="border-top-0 pt-0 pb-2">Report Department</th>
+                            <th class="border-top-0 pt-0 pb-2">Report Category</th>
+                            <th class="border-top-0 pt-0 pb-2">Total Views</th>
+                            <th class="border-top-0 pt-0 pb-2">Create Date</th>
+                            <th class="border-top-0 pt-0 pb-2">Update Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    $(document).ready(function () {
+        GET_REPORT();
+    });
+    function GOTO_GRID() {
+         window.location.href = '@Url.Action("Dashboard", "Report")';
+    }
+    function GOTO_LIST() {
+        window.location.href = '@Url.Action("DashboardList", "Report")';
+    }
+    function GET_REPORT() {
+        var URL = "@Url.Action("GET_REPORT", "MASTERDATA")";
+        var option = "";
+        option = {
+            "destroy": true,
+            "searching": true,
+            "paging": true,
+            "filter": true,
+            "responsive": false,
+            "scrollX": true,
+            "lengthMenu": [10, 20, 30, 40, 50, 100, 200, 500, 1000],
+            "pageLength": 20,
+            "dom": "<'row mb-3'<'col-md-4 mb-3 mb-md-0'l><'col-md-8 text-right'<'d-flex justify-content-end'f<'ms-2'B>>>>t<'row align-items-center'<'mr-auto col-md-6 mb-3 mb-md-0 mt-n2 'i><'mb-0 col-md-6'p>>",
+            "buttons": [
+                {
+                    text: '<i class="fa fa-plus"></i>',
+                    className: 'btn btn-default',
+                    action: function (e, dt, node, config) {
+                        ADD();
+                    }
+                },
+                {
+                    extend: 'print',
+                    className: 'btn btn-default',
+                    text: '<i class="fa fa-print"></i>',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'copy',
+                    className: 'btn btn-default',
+                    text: '<i class="fa fa-copy"></i>',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'csv',
+                    className: 'btn btn-default',
+                    text: '<i class="fa fa-file-excel"></i>',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'colvis',
+                    className: 'btn btn-default',
+                    text: '<i class="fa fa-eye"></i>',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                }
+            ],
+            "oLanguage": {
+                "oPaginate": {
+                    "first": "First",
+                    "last": "Last",
+                    "next": "Next",
+                    "previous": "Prev"
+                },
+                "sInfo": "_START_ -_END_ of _TOTAL_",
+                "infoEmpty": "0",
+                "infoFiltered": "( Total _MAX_  )",
+                "sSearch": "",
+                "sSearchPlaceholder": "Type in to Search",
+                "sLengthMenu": "<span class='d-none d-sm-inline-block'>Show</span><div class='form-control-select'> _MENU_ </div>",
+            },
+            "ajax": {
+                "url": URL,
+                "type": "GET",
+                "datatype": "json",
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                "data": function(a) {
+                    return $.extend({}, a, {
+                    });
+                }
+            },
+            "columns": [
+                {
+                    "render": function (data, type, full, meta) {
+                        var EDIT_BTN = '';
+                        EDIT_BTN = '<span onclick="UPDATE_TOTAL_VIEW(\'' + full.ID + '\')" class="badge bg-teal text-teal-800 bg-opacity-25 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"><i class="fa fa-eye text-teal fs-9px fa-fw me-5px"></i>VIEW</span>'
+                        return EDIT_BTN
+                    }
+                },
+                { data: 'REPORT_NAME', width: '200px' },
+                { data: 'REPORT_DESC', width: '300px' },
+                { data: 'REPORT_DEPT', width: '200px' },
+                {
+                    "render": function (data, type, full, meta) {
+                        var RTN = ''
+                        if (full.REPORT_CATEGORY === 'PRODUCTION') {
+                            RTN = '<span class="badge bg-teal text-teal-800 bg-opacity-25 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"><i class="fa fa-circle text-teal fs-9px fa-fw me-5px"></i>' + full.REPORT_CATEGORY + '</span>'
+                        }
+                        else if (full.REPORT_CATEGORY === 'PILOT') {
+                            RTN = '<<span class="badge bg-yellow bg-opacity-50 text-black text-opacity-50 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"><i class="fa fa-circle fs-9px fa-fw me-5px"></i>' + full.REPORT_CATEGORY + '</span>'
+                        }
+                        else {
+                            RTN = '<span class="badge bg-gray-100 text-black text-opacity-50 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"><i class="fa fa-circle text-gray-500 fs-9px fa-fw me-5px"></i>' + full.REPORT_CATEGORY + '</span>'
+                        }
+
+                        return RTN;
+                    }
+                },
+                { data: 'TOTAL_VIEW',  width: '100px' },
+                { data: 'CREATE_DATE', width: '100px' },
+                { data: 'UPDATE_DATE', width: '100px' },
+            ]
+        };
+        table = $("#table_1").DataTable(option);
+    }
+    function UPDATE_TOTAL_VIEW(ID) {
+        var URL = "@Url.Action("UPDATE_TOTAL_VIEW", "MASTERDATA")";
+        var MODEL = {
+            ID: ID
+        };
+        $.ajax({
+            type: "POST",
+            url: URL,
+            data: '{MODEL: ' + JSON.stringify(MODEL) + '}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data.res.Message !== '') {
+                    window.open('@Url.Action("Detail", "Report")', '_blank');
+                }
+            },
+            error: {
+                function(request, status, error) {
+                    LOADING_HIDE();
+                    ShowError("UPDATE_TOTAL_VIEW", request.responseText);
+                }
+            }
+        });
+    }
+
+</script>

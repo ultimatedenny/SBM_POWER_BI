@@ -1,0 +1,247 @@
+@{
+    string ROLE = @ViewBag.GROUPS_MDM;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>SBM POWER BI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>@ViewBag.Title - SBM BI</title>
+    <link rel="icon" type="image/x-icon" href="https://www.tigloo.es/wp-content/uploads/2021/08/Power_BI_Logo-1.png">
+    <!-- ================== BEGIN core-css ================== -->
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/css/vendor.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/css/app.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/lity/dist/lity.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/bootstrap-table/dist/bootstrap-table.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/select-picker/dist/picker.min.css" rel="stylesheet">
+    <!-- ================== END core-css ================== -->
+    <!-- ================== BEGIN page-css ================== -->
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/tag-it/css/jquery.tagit.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/bootstrap-slider/dist/css/bootstrap-slider.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/blueimp-file-upload/css/jquery.fileupload.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/summernote/dist/summernote-lite.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/spectrum-colorpicker2/dist/spectrum.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/jquery-typeahead/dist/jquery.typeahead.min.css" rel="stylesheet">
+    <!-- ================== END page-css ================== -->
+
+    @Scripts.Render("~/bundles/jquery")
+
+</head>
+<body>
+    <div id="app" class="app">
+        <div id="header" class="app-header">
+            <div class="mobile-toggler">
+                <button type="button" class="menu-toggler" data-toggle="sidebar-mobile">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+            <div class="brand">
+                <div class="desktop-toggler">
+                    <button type="button" class="menu-toggler" data-toggle="sidebar-minify">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+                <a href="#" class="brand-logo">
+                    <img src="~/Theme/ASPSTUDIO/template_html/dist/assets/img/logo2.png" class="invert-dark" alt="" height="20">
+                </a>
+            </div>
+            <div class="menu">
+                <form class="menu-search" method="POST" name="header_search_form" style="visibility: hidden">
+                    <div class="menu-search-icon"><i class="fa fa-search"></i></div>
+                    <div class="menu-search-input">
+                        <input type="text" class="form-control" placeholder="Search menu...">
+                    </div>
+                </form>
+                <div class="menu-item dropdown">
+
+                </div>
+                <div class="menu-item dropdown">
+                    <a href="#" data-bs-toggle="dropdown" data-display="static" class="menu-link">
+                        <div class="menu-img online">
+                            <div class="d-flex align-items-center justify-content-center w-100 h-100 bg-gray-900 text-gray-300 rounded-circle overflow-hidden">
+                                <i class="fa fa-user fa-2x mb-n3"></i>
+                            </div>
+                        </div>
+                        <div class="menu-text">@ViewBag.NAME</div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end me-lg-3">
+                        <a class="dropdown-item d-flex align-items-center" href="@Url.Action("Logout", "Authentication")">Log Out <i class="fa fa-toggle-off fa-fw ms-auto text-body text-opacity-50"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="sidebar" class="app-sidebar">
+            <div class="app-sidebar-content" data-scrollbar="true" data-height="100%">
+                <div class="menu">
+
+                    <div class="menu-header">Main Menu</div>
+                    <div class="menu-item">
+                        <a href="@Url.Action("Dashboard", "Report")" class="menu-link">
+                            <span class="menu-icon"><i class="fa fa-home"></i></span>
+                            <span class="menu-text">Dashboard</span>
+                        </a>
+                    </div>
+
+                    <div class="menu-header">Profile</div>
+                    <div class="menu-item">
+                        <a href="@Url.Action("Dashboard", "Report")" class="menu-link">
+                            <span class="menu-icon"><i class="fa fa-star"></i></span>
+                            <span class="menu-text">Favorite</span>
+                        </a>
+                    </div>
+                    @if (ROLE == "SYSTEM-ADMIN" || ROLE == "SUPER-ADMIN" || ROLE == "SYSTEM-MANAGER")
+                    {
+                        <div class="menu-header">Master Data</div>
+                        <div class="menu-item">
+                            <a href="@Url.Action("Category", "MasterData")" class="menu-link">
+                                <span class="menu-icon"><i class="fa fa-book"></i></span>
+                                <span class="menu-text">Category</span>
+                            </a>
+                        </div>
+                        <div class="menu-item">
+                            <a href="@Url.Action("Department", "MasterData")" class="menu-link">
+                                <span class="menu-icon"><i class="fa fa-save"></i></span>
+                                <span class="menu-text">Department</span>
+                            </a>
+                        </div>
+                        <div class="menu-item">
+                            <a href="@Url.Action("Group", "MasterData")" class="menu-link">
+                                <span class="menu-icon"><i class="fa fa-users"></i></span>
+                                <span class="menu-text">Group</span>
+                            </a>
+                        </div>
+                        <div class="menu-item">
+                            <a href="@Url.Action("Report", "MasterData")" class="menu-link">
+                                <span class="menu-icon"><i class="fa fa-chart-line"></i></span>
+                                <span class="menu-text">Report</span>
+                            </a>
+                        </div>
+                    }
+
+
+                    <div class="p-3 px-4 mt-auto hide-on-minified">
+                        <a href="#" class="btn btn-secondary d-block w-100 fw-600 rounded-pill">
+                            <i class="fa fa-code-branch me-1 ms-n1 opacity-5"></i> 1.0.0
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+            <button class="app-sidebar-mobile-backdrop" data-dismiss="sidebar-mobile"></button>
+        </div>
+        <div id="content" class="app-content">
+            @RenderBody()
+        </div>
+        <div class="theme-panel" style="visibility:visible">
+            <a href="javascript:;" data-click="theme-panel-expand" class="theme-collapse-btn"><i class="fa fa-cog"></i></a>
+            <div class="theme-panel-content">
+                <div class="row mt-5px pt-3px">
+                    <div class="col-9 control-label text-body-emphasis fw-bold">
+                        <div>Dark Mode</div>
+                        <div class="lh-sm fs-13px fw-semibold">
+                            <small class="text-body-emphasis opacity-50">
+                                Adjust the appearance to reduce glare and give your eyes a break.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-3 d-flex">
+                        <div class="form-check form-switch ms-auto mb-0 mt-2px">
+                            <input type="checkbox" class="form-check-input" name="app-theme-dark-mode" id="appThemeDarkMode" value="1">
+                            <label class="form-check-label" for="appThemeDarkMode">&nbsp;</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toasts-container">
+        <div class="toast" data-autohide="false">
+            <div class="toast-header">
+                <i class="far fa-bell text-muted me-2"></i>
+                <strong class="me-auto">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body">
+                <h6 id="TOAST_BODY"></h6>
+            </div>
+        </div>
+    </div>
+
+    <!-- Your existing script tags for various JavaScript files -->
+
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/js/vendor.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/js/app.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/lity/dist/lity.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/highlightjs/cdn-assets/highlight.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/js/demo/highlightjs.demo.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/chart.js/dist/chart.umd.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/js/demo/widgets.demo.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/bootstrap-table/dist/bootstrap-table.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/js/demo/table-plugins.demo.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/masonry-layout/dist/masonry.pkgd.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/moment/min/moment.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/js/demo/analytics.demo.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/jquery-migrate/dist/jquery-migrate.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/bootstrap-slider/dist/bootstrap-slider.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/jquery-typeahead/dist/jquery.typeahead.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/jquery.maskedinput/src/jquery.maskedinput.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/tag-it/js/tag-it.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/blueimp-file-upload/js/vendor/jquery.ui.widget.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/blueimp-tmpl/js/tmpl.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/blueimp-load-image/js/load-image.all.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/blueimp-canvas-to-blob/js/canvas-to-blob.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/blueimp-gallery/js/jquery.blueimp-gallery.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/blueimp-file-upload/js/jquery.iframe-transport.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/blueimp-file-upload/js/jquery.fileupload.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/blueimp-file-upload/js/jquery.fileupload-process.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/blueimp-file-upload/js/jquery.fileupload-image.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/blueimp-file-upload/js/jquery.fileupload-audio.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/blueimp-file-upload/js/jquery.fileupload-video.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/blueimp-file-upload/js/jquery.fileupload-validate.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/blueimp-file-upload/js/jquery.fileupload-ui.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/summernote/dist/summernote-lite.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/spectrum-colorpicker2/dist/spectrum.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/select-picker/dist/picker.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/js/demo/form-plugins.demo.js"></script>
+
+
+
+
+    <script>
+        $(document).ready(function () {
+
+        });
+        function CALL_NOTIF(Msg) {
+            $('#TOAST_BODY').text(Msg);
+            $('.toast').toast('show');
+        }
+    </script>
+
+</body>
+</html>

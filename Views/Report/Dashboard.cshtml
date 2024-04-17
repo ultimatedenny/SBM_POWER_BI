@@ -1,0 +1,620 @@
+@using SBM_POWER_BI.Models
+@model LoginModel
+@{
+    Layout = "~/Views/Shared/Dashlite/_Layout.cshtml";
+    ViewBag.Title = "Dashboard";
+}
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: sans-serif;
+    }
+
+    .button:active,
+    .button.is-checked {
+        background-color: #28F;
+    }
+
+    .button.is-checked {
+        color: white;
+        text-shadow: 0 -1px hsla(0, 0%, 0%, 0.8);
+    }
+
+    .button:active {
+        box-shadow: inset 0 1px 10px hsla(0, 0%, 0%, 0.8);
+    }
+
+    .grid:after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+
+    .grid2:after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+
+    .element-item {
+        position: relative;
+        float: left;
+        width: 250px;
+        height: auto;
+        margin: 10px;
+        padding: 0px;
+        color: #262524;
+    }
+
+        .element-item > * {
+            margin: 0;
+            padding: 0;
+        }
+</style>
+
+@*<style type="text/css" media="print">
+        body {
+            visibility: hidden;
+            display: none
+        }
+    </style>*@
+
+<div class="nk-block-head nk-block-head-sm">
+    <div class="nk-block-between">
+        <div class="nk-block-head-content">
+            <h3 class="nk-block-title page-title">Dashboard</h3>
+        </div>
+    </div>
+</div>
+
+<div>
+    <div class="card card-bordered">
+        <div class="card-header border-bottom">All Dashboard</div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-control-wrap">
+                        <input onkeyup="SEARCH()" type="text" maxlength="60" class="form-control" id="REPORT_SEARCH" placeholder="Report Name">
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="btn-group filters-button-group">
+                        <button type="button" class="btn btn-dim btn-outline-primary" data-filter="*">All</button>
+                        <button type="button" class="btn btn-dim btn-outline-primary" data-filter=".@ViewBag.DEPARTMENT">Department</button>
+                    </div>
+                </div>
+            </div>
+            <div id="recent-item" class="grid">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="MODAL_SHARE" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document" id="MODAL_SHARE">
+        <div class="modal-content">
+            <a href="#" class="close" data-bs-dismiss="modal">
+                <em class="icon ni ni-cross-sm"></em>
+            </a>
+            <div class="modal-body modal-body-md">
+                <h4 class="title">Share Report</h4>
+                <p id="ID_REPORT" style="font-size:0px"></p>
+                <ul class="nk-nav nav nav-tabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#tabItem1" aria-selected="false" role="tab" tabindex="-1">Standard Sharing</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" data-bs-toggle="tab" href="#tabItem2" aria-selected="true" role="tab">TV Display Sharing</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active show" id="tabItem1" role="tabpanel">
+                        <h6 class="title">Standard Sharing</h6>
+                        <p>Effortlessly generate URLs for seamless content distribution among users. Share standard reports securely and efficiently.</p>
+
+                        <label class="form-label">Expire Date</label>
+                        <div class="form-control-wrap">
+                            <div class="form-icon form-icon-left"><em class="icon ni ni-calendar"></em></div>
+                            <input type="text" class="form-control" id="URL_EXPI">
+                        </div>
+
+                        <br />
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><em class="icon ni ni-link"></em></span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Url Standard Sharing" id="URL_TEXT_0">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-primary btn-dim" onclick="GET_URL('0')">Organization</button>
+                            </div>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-primary btn-dim" onclick="SHOW_ALERT('0')">Customer</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane" id="tabItem2" role="tabpanel">
+                        <h6 class="title">TV Display Sharing</h6>
+                        <p>Showcase your reports on TV displays with a professional touch. Deliver impactful presentations and captivate your audience with the TV Display Sharing option.</p>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><em class="icon ni ni-link"></em></span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Url TV Sharing" id="URL_TEXT_1">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-primary btn-dim" onclick="GET_URL('1')">Organization</button>
+                            </div>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-primary btn-dim" onclick="SHOW_ALERT('1')">Customer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="MODAL_ALERT" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document" id="MODAL_SHARE">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="MODAL_ALERT_TITLE">Share Agreement</h5>
+                <a href="#" class="close" data-bs-dismiss="modal">
+                    <em class="icon ni ni-cross-sm"></em>
+                </a>
+            </div>
+            <div class="modal-body modal-body-md">
+                <h6>Publish to Internal (Organization):</h6>
+                <p>Publishing to internal users within an organization is a secure and controlled way to share Power BI content. This method is ideal for collaborating on business intelligence insights among team members, departments, or any internal stakeholders. Key features include:</p>
+                <ul>
+                    <li><b>Secure Access:</b> Access is restricted to users within the organization, ensuring that sensitive data is only accessible to authorized personnel.</li>
+                    <li><b>Integration with Azure Active Directory:</b> Users can leverage Azure Active Directory (AAD) for seamless access management and authentication.</li>
+                    <li><b>Granular Permissions:</b> Fine-grained control over permissions allows content creators to define who can view or edit specific reports and dashboards.</li>
+                </ul>
+                <br />
+                <h6>Publish to Web External (Customer):</h6>
+                <p>Publishing to web external is designed for sharing Power BI content with individuals outside the organization, such as customers, partners, or vendors. This option offers a more open and accessible approach, but considerations include:</p>
+                <ul>
+                    <li><b>Public Access:</b> Reports and dashboards published to the web are publicly accessible via a unique URL.</li>
+                    <li><b>Limited Security:</b> While convenient for external sharing, it's crucial to avoid including sensitive or confidential information.</li>
+                    <li><b>No Authentication Required:</b> External users do not need a Power BI account for access, simplifying the process but requiring careful consideration of shared information.</li>
+                </ul>
+                <br />
+                <b>Considerations and Limitations:</b>
+                <ul>
+                    <li>- Reports using row-level security.</li>
+                    <li>- Reports connecting to data using DirectQuery. Connect using composite or import mode instead. Read about the differences between the modes.</li>
+                    <li>- Reports using any Live Connection data source.</li>
+                    <li>- Reports using a shared semantic model that is stored in a different workspace from the report.</li>
+                    <li>- Shared and certified semantic models.</li>
+                    <li>- Reports shared to you directly or through an app.</li>
+                    <li>- Reports in a workspace in which you aren't an edit member.</li>
+                    <li>- "R" and Python visuals aren't currently supported in Publish to web reports.</li>
+                    <li>- Exporting data from visuals in a report that has been published to the web.</li>
+                    <li>- Q&A for Power BI visuals.</li>
+                    <li>- Reports containing report-level DAX measures.</li>
+                    <li>- Single sign-on data query models, including composite models on Power BI semantic models or Azure Analysis Services.</li>
+                    <li>- Secure confidential or proprietary information.</li>
+                    <li>- The automatic authentication capability provided with the Embed option doesn't work with the Power BI JavaScript API. For the Power BI JavaScript API, use the user owns data approach to embedding.</li>
+                    <li>- Admins can block public internet access, as described in Private links for accessing Power BI. In that case, the Publish to Web option is grayed out for your tenant in the Power BI admin portal.</li>
+                    <li>- License enforcement for custom visuals.</li>
+                    <li>- Uncertified visuals from the organizational store, when the global tenant switch of the organization for uncertified visuals is on.</li>
+                    <li>- Public visuals from the organizational store, when the global tenant switch of the organization doesn't allow visuals created using the Power BI SDK.</li>
+                    <li>- The user who created the embed code needs to maintain access to the report for the embed code to work. This includes requiring a Pro or Premium Per User license as required by the workspace.</li>
+                    <li>- Paginated reports.</li>
+                    <li>- Multiple-language reports.</li>
+                </ul>
+                <p>In summary, Power BI offers flexibility in sharing insights. Publishing to internal users provides a secure environment for collaboration within the organization, while publishing to the web external is a convenient way to share insights with a broader audience.</p>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="AGREE_ALERT()">I'm agree with this.</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    $(document).ready(function () {
+        $('#URL_EXPI').datepicker({
+            format: "yyyy-mm-dd",
+            todayBtn: "linked",
+            clearBtn: true,
+            daysOfWeekDisabled: "0,6",
+            daysOfWeekHighlighted: "0,6",
+            autoclose: true,
+            todayHighlight: true,
+            startDate: new Date()
+        });
+        LOAD_REPORT();
+        //SHOW();
+    });
+
+    function GOTO_GRID() {
+        window.location.href = '@Url.Action("Dashboard", "Report")';
+    }
+
+    function GOTO_LIST() {
+        //window.location.href = '@Url.Action("DashboardList", "Report")';
+        alert("Dashboard List")
+    }
+
+    var TYPE_EXTERNAL = '';
+
+    function SHOW_ALERT(TYPE) {
+        if (TYPE === '0') {
+            TYPE_EXTERNAL = '2'
+        }
+        else {
+            TYPE_EXTERNAL = '3'
+        }
+        $('#MODAL_ALERT').modal('toggle');
+    }
+
+    function AGREE_ALERT() {
+        GET_URL(TYPE_EXTERNAL)
+        $('#MODAL_ALERT').modal('toggle');
+    }
+
+    function LOAD_REPORT() {
+        var URL = "@Url.Action("GET_RECENT", "MASTERDATA")";
+        $.ajax({
+            type: "POST",
+            url: URL,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var count = data.data.length;
+                const cardsPerRow = 5;
+                let cardCount = 0;
+                function createNewRow() {
+                    $('#recent-item').append('<div class="row mt-2 mb-2"></div>');
+                }
+                for (let i = 0; i < count; i++) {
+                    if (cardCount % cardsPerRow === 0) {
+                        createNewRow();
+                    }
+                    var EXP = `EXP_${i}`;
+                    var CRD = `CRD_{i}`;
+                    var favLinkId = 'FAV_' + i;
+                    let cardHtml = `
+                          <div class="element-item ${data.data[i].REPORT_DEPT}" data-category="${data.data[i].REPORT_DEPT}">
+                              <div class="card card-bordered" id="${CRD}">
+                                  <div class="card-header border-bottom" style="padding-left: 10px;padding-right: 5px;">
+                                      <div class="card-title-group">
+                                          <div class="card-title">
+                                              <p class="title name" style="color:#364a63;">${truncateText(data.data[i].REPORT_NAME, 15) }</p>
+                                          </div>
+                                          <div class="card-tools">
+                                              <a onclick="SHARE_REPORT('${data.data[i].ID}')" class="btn btn-trigger btn-icon" style="margin: -5px;"><em class="icon ni ni-share"></em></a>
+                                              <a onclick="UPDATE_TOTAL_VIEW('${data.data[i].ID}')" class="btn btn-trigger btn-icon" style="margin: -5px;"><em class="icon ni ni-expand"></em></a>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="card-body" style="padding: 0px">
+                                     <img style="padding: 0px; margin: 0px; width: 100%; height: 120px; " src="https://www.logo.wine/a/logo/Power_BI/Power_BI-Logo.wine.svg" style=></img>
+                                  </div>
+                                  <div class="card-footer border-bottom">
+                                      <div class="card-title-group">
+                                          <div class="card-title">
+                                              <p class="title" style="color:#364a63"><em class="icon ni ni-eye"></em> ${data.data[i].TOTAL_VIEW}</p>
+                                          </div>
+                                          <div class="card-tools">
+                                              <span class="badge badge-dim rounded-pill bg-outline-secondary">${data.data[i].CREATE_DATE}</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                    `;
+                    $('#recent-item .row:last-child').append(cardHtml);
+                    cardCount++;
+                }
+                $('.expand-2').click(function () {
+                    var cardBody = $(this).closest('.card').find('.card-body');
+                    cardBody.collapse('toggle');
+                });
+                $('.fa-link1').click(function () {
+                    var clickedId = $(this).attr('id');
+                    var match = clickedId.match(/\d+/);
+                    if (match) {
+                        var numberPart = match[0];
+                        var currentColor = $(this).css('color');
+                        var newColor = (currentColor === 'rgb(0, 0, 0)') ? 'orange' : 'black';
+                        $(this).css('color', newColor);
+                        if (newColor === 'orange') {
+                            console.log('Report ' + numberPart + ' was added to your favorite ');
+                        } else {
+                            console.log('Report ' + numberPart + ' was removed from your favorite ');
+                        }
+                    }
+                });
+                MAKE_GRID();
+            },
+            error: {
+                function(request, status, error) {
+                    LOADING_HIDE();
+                    ShowError("SINGLE_ADD", request.responseText);
+                }
+            }
+        });
+    }
+
+    function LOAD_ALL() {
+        var URL = "@Url.Action("GET_RECENT", "MASTERDATA")";
+        $.ajax({
+            type: "POST",
+            url: URL,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var count = data.data.length;
+                const cardsPerRow = 5;
+                let cardCount = 0;
+                function createNewRow() {
+                    $('#recent-open').append('<div class="row mt-2 mb-2"></div>');
+                }
+                for (let i = 0; i < count; i++) {
+                    if (cardCount % cardsPerRow === 0) {
+                        createNewRow();
+                    }
+                    var EXP = `EXP_${i}`;
+                    var CRD = `CRD_{i}`;
+                    var favLinkId = 'FAV_' + i;
+                    let cardHtml = `
+                          <div class="element-item ${data.data[i].REPORT_DEPT}" data-category="${data.data[i].REPORT_DEPT}">
+                              <div class="card card-bordered" id="${CRD}">
+                                  <div class="card-header border-bottom" style="padding-left: 10px;padding-right: 5px;">
+                                      <div class="card-title-group">
+                                          <div class="card-title">
+                                              <p class="title name2" style="color:black">${truncateText(data.data[i].REPORT_NAME, 15) }</p>
+                                          </div>
+                                          <div class="card-tools">
+                                              <a onclick="SHARE_REPORT('${data.data[i].ID}')" class="btn btn-trigger btn-icon" style="margin: -5px;"><em class="icon ni ni-share"></em></a>
+                                              <a onclick="UPDATE_TOTAL_VIEW('${data.data[i].ID}')" class="btn btn-trigger btn-icon" style="margin: -5px;"><em class="icon ni ni-expand"></em></a>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="card-body" style="padding: 0px">
+                                     <img style="padding: 0px; margin: 0px; width: 100%; height: 120px; " src="https://www.logo.wine/a/logo/Power_BI/Power_BI-Logo.wine.svg" style=></img>
+                                  </div>
+                                  <div class="card-footer border-bottom">
+                                      <div class="card-title-group">
+                                          <div class="card-title">
+                                              <p class="title">View: ${data.data[i].TOTAL_VIEW}</p>
+                                          </div>
+                                          <div class="card-tools">
+                                              <span class="badge badge-dim rounded-pill bg-outline-primary">${data.data[i].CREATE_DATE}</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                    `;
+                    $('#recent-open .row:last-child').append(cardHtml);
+                    cardCount++;
+                }
+                $('.expand-2').click(function () {
+                    var cardBody = $(this).closest('.card').find('.card-body');
+                    cardBody.collapse('toggle');
+                });
+                $('.fa-link1').click(function () {
+                    var clickedId = $(this).attr('id');
+                    var match = clickedId.match(/\d+/);
+                    if (match) {
+                        var numberPart = match[0];
+                        var currentColor = $(this).css('color');
+                        var newColor = (currentColor === 'rgb(0, 0, 0)') ? 'orange' : 'black';
+                        $(this).css('color', newColor);
+                        if (newColor === 'orange') {
+                            console.log('Report ' + numberPart + ' was added to your favorite ');
+                        } else {
+                            console.log('Report ' + numberPart + ' was removed from your favorite ');
+                        }
+                    }
+                });
+                MAKE_GRID();
+            },
+            error: {
+                function(request, status, error) {
+                    LOADING_HIDE();
+                    ShowError("SINGLE_ADD", request.responseText);
+                }
+            }
+        });
+    }
+
+    function UPDATE_TOTAL_VIEW(ID) {
+        var URL = "@Url.Action("UPDATE_TOTAL_VIEW", "MASTERDATA")";
+        var MODEL = {
+            ID: ID
+        };
+        $.ajax({
+            type: "POST",
+            url: URL,
+            data: '{MODEL: ' + JSON.stringify(MODEL) + '}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                window.open('@Url.Action("Detail", "Report")', '_blank');
+            },
+            error: {
+                function(request, status, error) {
+                    LOADING_HIDE();
+                    ShowError("UPDATE_TOTAL_VIEW", request.responseText);
+                }
+            }
+        });
+    }
+
+    function truncateText(text, maxLength) {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + "...";
+        } else {
+            return text;
+        }
+    }
+
+    function MAKE_GRID() {
+        var $grid = $('.grid').isotope({
+            itemSelector: '.element-item',
+            layoutMode: 'fitRows'
+        });
+        var filterFns = {
+            numberGreaterThan50: function () {
+                var number = $(this).find('.number').text();
+                return parseInt(number, 10) > 50;
+            },
+            ium: function () {
+                var name = $(this).find('.name').text();
+                return name.match(/ium$/);
+            }
+        };
+        $('.btn-group').on('click', 'button', function () {
+            var filterValue = $(this).attr('data-filter');
+            filterValue = filterFns[filterValue] || filterValue;
+            $grid.isotope({ filter: filterValue });
+        });
+        $('.btn-group').each(function (i, buttonGroup) {
+            var $buttonGroup = $(buttonGroup);
+            $buttonGroup.on('click', 'button', function () {
+                $buttonGroup.find('.is-checked').removeClass('is-checked');
+                $(this).addClass('is-checked');
+            });
+        });
+    }
+
+    function SHARE_REPORT(ID) {
+        GET_PERMISSION("SHARE", function (success) {
+            if (success === "True") {
+                $('#ID_REPORT').text(ID)
+                $('#MODAL_SHARE').modal('toggle');
+            } else {
+                alert("Forbidden action.")
+            }
+        });
+    }
+
+    function GET_URL(TYPE) {
+        var URL = "@Url.Action("GET_URL", "MASTERDATA")";
+        if ($('#URL_EXPI').val() == "" && (TYPE == "0" || TYPE == "2")) {
+            alert("Expire date cannot blank")
+            return;
+        }
+        var MODEL = {
+            URL_TYPE: TYPE,
+            URL_EXPI: $('#URL_EXPI').val(),
+            REPORT_ID: $('#ID_REPORT').text()
+        };
+        $.ajax({
+            type: "POST",
+            url: URL,
+            data: '{MODEL: ' + JSON.stringify(MODEL) + '}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data.res.StatusCode == '200') {
+                    if (TYPE == '0' || TYPE == '2') {
+                        $('#URL_TEXT_0').val(data.res.Data[0].URL_TEXT)
+
+                        var copyText = document.getElementById("URL_TEXT_0");
+                        copyText.select();
+                        copyText.setSelectionRange(0, 99999);
+                        navigator.clipboard.writeText(copyText.value);
+                        alert("Copied to your clipboard");
+                    }
+                    else if (TYPE == '1' || TYPE == '3') {
+                        $('#URL_TEXT_1').val(data.res.Data[0].URL_TEXT)
+
+                        var copyText = document.getElementById("URL_TEXT_1");
+                        copyText.select();
+                        copyText.setSelectionRange(0, 99999);
+                        navigator.clipboard.writeText(copyText.value);
+                        alert("Copied to your clipboard");
+                    }
+                }
+                else {
+                    alert(data.res.Message);
+                }
+            },
+            error: {
+                function(request, status, error) {
+
+                }
+            }
+        });
+    }
+
+    function SEARCH() {
+        var $grid = $('.grid').isotope();
+        var param = $('#REPORT_SEARCH').val();
+        $grid.isotope({
+            filter: function () {
+                var name = $(this).find('.name').text();
+                return name.toLowerCase().indexOf(param.toLowerCase()) !== -1;
+            }
+        });
+    }
+
+    function SEARCH_2() {
+        var $grid = $('.grid2').isotope();
+        var param = $('#REPORT_SEARCH_2').val();
+        $grid.isotope({
+            filter: function () {
+                var name = $(this).find('.name2').text();
+                return name.toLowerCase().indexOf(param.toLowerCase()) !== -1;
+            }
+        });
+    }
+
+    function GET_PERMISSION(TYPE, callback) {
+        var URL = "@Url.Action("GET_PERMISSION", "MASTERDATA")";
+        $.ajax({
+            type: "POST",
+            url: URL,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var CREATE = data.res[0].ALLOW_CREATE;
+                var EXPORT = data.res[0].ALLOW_EXPORT;
+                var SHARE = data.res[0].ALLOW_SHARE;
+                var VIEW = data.res[0].ALLOW_VIEW;
+                if (TYPE == "CREATE") {
+                    callback(CREATE);
+                }
+                else if (TYPE == "EXPORT") {
+                    callback(EXPORT);
+                }
+                else if (TYPE == "SHARE") {
+                    callback(SHARE);
+                }
+                else if (TYPE == "VIEW") {
+                    callback(VIEW);
+                }
+                else {
+                    callback(false);
+                }
+            },
+            error: function (request, status, error) {
+                callback(false);
+            }
+        });
+    }
+
+    function HIDE() {
+        window.open('CallPBI:0');
+    }
+
+    function SHOW() {
+        window.open('CallPBI:1');
+    }
+
+
+</script>

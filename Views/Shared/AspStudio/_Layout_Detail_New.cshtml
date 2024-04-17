@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>@ViewBag.Title - SBM POWER BI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="frame-ancestors 'self';">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" type="image/x-icon" href="~/Theme/RFQ/LOGO1.png">
+    <!-- ================== BEGIN core-css ================== -->
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/css/vendor.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/css/app.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/lity/dist/lity.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/bootstrap-table/dist/bootstrap-table.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css" rel="stylesheet">
+    <!-- ================== END core-css ================== -->
+    @Scripts.Render("~/bundles/jquery")
+    <style>
+        body {
+            overflow: hidden;
+        }
+    </style>
+    <style>
+        @@media print {
+            @@page {
+                size: A3 landscape; /* Set the paper size to A4 in landscape orientation */
+                margin: 0; /* Set all margins to zero */
+                n-up: 2; /* Set two pages per sheet */
+            }
+        }
+    </style>
+    <style>
+
+        .modal-body-content {
+            padding: 20px;
+            background-color: #fff; /* Modal body background color */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Modal body box shadow */
+        }
+
+            .modal-body-content h1, .modal-body-content h2 {
+                color: #333;
+            }
+
+
+            .modal-body-content p {
+                margin-bottom: 15px;
+                color: #555;
+            }
+    </style>
+</head>
+
+<body>
+    <div id="app" class="app app-content-full-height app-without-sidebar app-without-header">
+        <div id="content" class="app-content p-0">
+            <div class="pos pos-vertical pos-with-header" id="pos">
+                <div class="pos-container">
+                    <div class="pos-header">
+                        <div class="logo">
+                            <a>
+                                <div class="logo-text">SBM POWER BI</div>
+                            </a>
+                        </div>
+                        <div class="time" id="time">00:00</div>
+                        <div class="nav">
+                            <div class="nav-item">
+                                <a class="nav-link" onclick="window.close();">
+                                    <i class="fa fa-home nav-icon"></i>
+                                </a>
+                            </div>
+                            @*<div class="nav-item">
+                                <a class="nav-link" id="fullscreenButton">
+                                    <i class="fa fa-expand nav-icon"></i>
+                                </a>
+                            </div>*@
+                            <div class="nav-item">
+                                <a class="nav-link" id="fullscreenButton" onclick="toggleFullScreen()">
+                                    <i class="fa fa-expand nav-icon"></i>
+                                </a>
+                            </div>
+                            <div class="nav-item">
+                                <a class="nav-link" onclick="SharingOption('0')">
+                                    <i class="fa fa-file-pdf nav-icon"></i>
+                                </a>
+                            </div>
+                            <div class="nav-item">
+                                <a class="nav-link" onclick="SharingOption('1')">
+                                    <i class="fa fa-file-image nav-icon"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pos-content">
+                        <div class="pos-content-container p-0">
+
+                            @RenderBody()
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="MODAL_TERMS" data-bs-backdrop="static" data-bs-keyboard="false">
+            <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Confidentiality and Data Sharing Policy</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h2>Policy Statement:</h2>
+                        <p>
+                            This policy outlines guidelines and restrictions on the sharing of information, specifically through screenshots and PDFs, related to Power BI reports generated by PT. SHIMANO BATAM. The purpose of this policy is to ensure the confidentiality, integrity, and secure handling of sensitive data, while also promoting responsible and authorized data sharing practices.
+                        </p>
+                        <h2>Scope:</h2>
+                        <p>
+                            This policy applies to all employees, contractors, and third parties who have access to Power BI reports and data generated by PT. SHIMANO BATAM.
+                        </p>
+
+                        <h2>Guidelines for Sharing through Screenshots and PDFs:</h2>
+                        <ol>
+                            <li>
+                                <strong>Authorization:</strong>
+                                <ul>
+                                    <li>Only authorized individuals with legitimate business needs are permitted to share Power BI information through screenshots and PDFs.</li>
+                                    <li>Obtain explicit approval from relevant authorities before sharing any sensitive information externally.</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>Confidential Information:</strong>
+                                <ul>
+                                    <li>Do not share confidential or proprietary information through screenshots or PDFs without proper authorization.</li>
+                                    <li>Exercise caution when including personally identifiable information (PII) in shared documents.</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>Data Sensitivity:</strong>
+                                <ul>
+                                    <li>Clearly identify the sensitivity level of the information being shared.</li>
+                                    <li>Apply appropriate security measures, such as password protection, to sensitive PDF documents.</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <h2>Recipient Awareness:</h2>
+                        <p>
+                            Inform recipients of the confidential nature of the shared information and explicitly state any restrictions on further dissemination.
+                        </p>
+
+                        <h2>Limited Distribution:</h2>
+                        <p>
+                            Limit the distribution of screenshots and PDFs to the necessary individuals or parties. Avoid sharing information through public forums or unsecured channels.
+                        </p>
+
+                        <h2>Version Control:</h2>
+                        <p>
+                            Clearly mark the version of the Power BI report from which the screenshots or PDFs were derived. Ensure that the shared information is up-to-date and reflects the most recent changes.
+                        </p>
+
+                        <h2>Secure Transmission:</h2>
+                        <p>
+                            When sharing information electronically, use secure and encrypted methods to transmit screenshots and PDFs.
+                        </p>
+
+                        <h2>Retention and Disposal:</h2>
+                        <p>
+                            Follow the company's data retention and disposal policies when handling screenshots and PDFs to prevent unauthorized access or data breaches.
+                        </p>
+
+                        <h2>Training and Awareness:</h2>
+                        <p>
+                            Provide training to employees on the proper procedures for sharing Power BI information. Foster awareness about the importance of data security and confidentiality.
+                        </p>
+
+                        <h2>Violation Consequences:</h2>
+                        <p>
+                            Violations of this policy may result in disciplinary action, including but not limited to verbal or written warnings, suspension, termination of employment, and legal action if applicable.
+                        </p>
+
+                        <h2>Review and Updates:</h2>
+                        <p>
+                            This policy will be reviewed periodically to ensure its relevance and effectiveness. Updates will be made as necessary to address changing business needs, technology, and security requirements.
+                        </p>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                        <button type="submit" class="btn btn-outline-success">
+                            Agree
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <a href="#" data-click="scroll-top" class="btn-scroll-top fade"><i class="fa fa-arrow-up"></i></a>
+        <!-- END btn-scroll-top -->
+        <div class="theme-panel" style="visibility:visible">
+            <a href="javascript:;" data-click="theme-panel-expand" class="theme-collapse-btn"><i class="fa fa-cog"></i></a>
+            <div class="theme-panel-content">
+                <div class="row mt-5px pt-3px">
+                    <div class="col-9 control-label text-body-emphasis fw-bold">
+                        <div>Dark Mode</div>
+                        <div class="lh-sm fs-13px fw-semibold">
+                            <small class="text-body-emphasis opacity-50">
+                                Adjust the appearance to reduce glare and give your eyes a break.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-3 d-flex">
+                        <div class="form-check form-switch ms-auto mb-0 mt-2px">
+                            <input type="checkbox" class="form-check-input" name="app-theme-dark-mode" id="appThemeDarkMode" value="1">
+                            <label class="form-check-label" for="appThemeDarkMode">&nbsp;</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/js/vendor.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/js/app.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/lity/dist/lity.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/highlightjs/cdn-assets/highlight.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/js/demo/highlightjs.demo.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/chart.js/dist/chart.umd.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/js/demo/widgets.demo.js"></script>
+    @*<script src="~/Theme/ASPSTUDIO/template_html/dist/js/demo/sidebar-scrollspy.demo.js"></script>*@
+
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/bootstrap-table/dist/bootstrap-table.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/js/demo/table-plugins.demo.js"></script>
+
+
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/masonry-layout/dist/masonry.pkgd.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/chart.js/dist/chart.umd.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/moment/min/moment.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/js/demo/analytics.demo.js"></script>
+    @*<script src="~/Theme/ASPSTUDIO/template_html/dist/assets/js/demo/sidebar-scrollspy.demo.js"></script>*@
+
+
+    <script>
+        function CALL_NOTIF(Msg) {
+            $('#TOAST_BODY').text(Msg);
+            $('.toast').toast('show');
+        }
+    </script>
+
+    <script>
+
+        function SharingOption(opt) {
+            if (opt == "0") {
+                GET_PERMISSION("EXPORT", function (success) {
+                    if (success === "True") {
+                        DownloadPDF()
+                    } else {
+                        alert("Forbidden action.")
+                    }
+                });
+            }
+            else if (opt == "1") {
+                GET_PERMISSION("EXPORT", function (success) {
+                    if (success === "True") {
+                        DownloadImage()
+                    } else {
+                        alert("Forbidden action.")
+                    }
+                });
+            }
+            else {
+                alert("Unknown sharing option.")
+            }
+        }
+
+        function DownloadPDF() {
+            window.print();
+        }
+
+        function DownloadImage() {
+            var url = '@Url.Action("DownloadFile", "Tools")';
+            var windowFeatures = 'width=500,height=550,resizable=no';
+            var newWindow = window.open(url, '_blank', windowFeatures);
+
+            if (newWindow) {
+                newWindow.addEventListener('fullscreenchange', function () {
+                    if (newWindow.document.fullscreenElement === null) {
+                        newWindow.resizeTo(500, 550);
+                    }
+                });
+            }
+        }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+
+            var handleCheckTime = function (i) {
+                "use strict";
+
+                if (i < 10) { i = "0" + i };
+                return i;
+            };
+
+            var handleStartTime = function () {
+                "use strict";
+
+                var today = new Date();
+                var h = today.getHours();
+                var m = today.getMinutes();
+                var s = today.getSeconds();
+                var a;
+                m = handleCheckTime(m);
+                s = handleCheckTime(s);
+                a = (h > 11) ? 'pm' : 'am';
+                h = (h > 12) ? h - 12 : h;
+                document.getElementById('time').innerHTML = h + ":" + m + a;
+                var t = setTimeout(handleStartTime, 500);
+            };
+
+            var handleDatepicker = function () {
+                "use strict";
+
+                $('[data-render="datepicker"]').datepicker({
+                    todayHighlight: true,
+                    autoclose: true
+                });
+            };
+
+            $(document).ready(function () {
+                handleStartTime();
+                handleDatepicker();
+            });
+
+        });
+
+        function GET_PERMISSION(TYPE, callback) {
+            var URL = "@Url.Action("GET_PERMISSION", "MASTERDATA")";
+            $.ajax({
+                type: "POST",
+                url: URL,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var CREATE = data.res[0].ALLOW_CREATE;
+                    var EXPORT = data.res[0].ALLOW_EXPORT;
+                    var SHARE = data.res[0].ALLOW_SHARE;
+                    var VIEW = data.res[0].ALLOW_VIEW;
+                    if (TYPE == "CREATE") {
+                        callback(CREATE);
+                    }
+                    else if (TYPE == "EXPORT") {
+                        callback(EXPORT);
+                    }
+                    else if (TYPE == "SHARE") {
+                        callback(SHARE);
+                    }
+                    else if (TYPE == "VIEW") {
+                        callback(VIEW);
+                    }
+                    else {
+                        callback(false);
+                    }
+                },
+                error: function (request, status, error) {
+                    callback(false);
+                }
+            });
+        }
+
+        
+
+    </script>
+
+</body>
+</html>

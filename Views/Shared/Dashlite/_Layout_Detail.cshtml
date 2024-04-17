@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>SBM POWER BI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>@ViewBag.Title - SBM BI</title>
+    <!-- ================== BEGIN core-css ================== -->
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/css/vendor.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/css/app.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/lity/dist/lity.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/bootstrap-table/dist/bootstrap-table.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <!-- ================== END core-css ================== -->
+    @Scripts.Render("~/bundles/jquery")
+    <style>
+        body {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="app">
+        <div id="header" class="app-header">
+            <div class="mobile-toggler">
+                <button type="button" class="menu-toggler" data-toggle="sidebar-mobile">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+            <div class="brand">
+                <div class="desktop-toggler">
+                    <button type="button" class="menu-toggler" data-toggle="sidebar-minify">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+                <a href="#" class="brand-logo">
+                    <img src="https://www.tigloo.es/wp-content/uploads/2021/08/Power_BI_Logo-1.png" alt="Power BI Logo" width="20" height="20">
+                    <h5>SBM POWER BI</h5>
+                </a>
+            </div>
+            <div class="menu">
+                <form class="menu-search" method="POST" name="header_search_form" style="visibility: hidden">
+                    <div class="menu-search-icon"><i class="fa fa-search"></i></div>
+                    <div class="menu-search-input">
+                        <input type="text" class="form-control" placeholder="Search menu...">
+                    </div>
+                </form>
+                <div class="menu-item dropdown">
+
+                </div>
+                <div class="menu-item dropdown">
+                    <a href="#" data-bs-toggle="dropdown" data-display="static" class="menu-link">
+                        <div class="menu-img online">
+                            <div class="d-flex align-items-center justify-content-center w-100 h-100 bg-gray-900 text-gray-300 rounded-circle overflow-hidden">
+                                <i class="fa fa-user fa-2x mb-n3"></i>
+                            </div>
+                        </div>
+                        <div class="menu-text">@ViewBag.NAME</div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end me-lg-3">
+                        <a class="dropdown-item d-flex align-items-center" href="@Url.Action("Logout", "Authentication")">Log Out <i class="fa fa-toggle-off fa-fw ms-auto text-body text-opacity-50"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="padding:10px">
+            @RenderBody()
+        </div>
+        
+        <a href="#" data-click="scroll-top" class="btn-scroll-top fade"><i class="fa fa-arrow-up"></i></a>
+        <div class="theme-panel" style="visibility:visible">
+            <a href="javascript:;" data-click="theme-panel-expand" class="theme-collapse-btn"><i class="fa fa-cog"></i></a>
+            <div class="theme-panel-content">
+                <div class="row mt-5px pt-3px">
+                    <div class="col-9 control-label text-body-emphasis fw-bold">
+                        <div>Dark Mode</div>
+                        <div class="lh-sm fs-13px fw-semibold">
+                            <small class="text-body-emphasis opacity-50">
+                                Adjust the appearance to reduce glare and give your eyes a break.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-3 d-flex">
+                        <div class="form-check form-switch ms-auto mb-0 mt-2px">
+                            <input type="checkbox" class="form-check-input" name="app-theme-dark-mode" id="appThemeDarkMode" value="1">
+                            <label class="form-check-label" for="appThemeDarkMode">&nbsp;</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toasts-container">
+        <div class="toast" data-autohide="false">
+            <div class="toast-header">
+                <i class="far fa-bell text-muted me-2"></i>
+                <strong class="me-auto">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body" >
+                <h6 id="TOAST_BODY"></h6>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/js/vendor.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/js/app.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/lity/dist/lity.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/highlightjs/cdn-assets/highlight.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/js/demo/highlightjs.demo.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/chart.js/dist/chart.umd.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/js/demo/widgets.demo.js"></script>
+    @*<script src="~/Theme/ASPSTUDIO/template_html/dist/js/demo/sidebar-scrollspy.demo.js"></script>*@
+
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/bootstrap-table/dist/bootstrap-table.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/js/demo/table-plugins.demo.js"></script>
+
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/masonry-layout/dist/masonry.pkgd.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/chart.js/dist/chart.umd.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/moment/min/moment.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/js/demo/analytics.demo.js"></script>
+    @*<script src="~/Theme/ASPSTUDIO/template_html/dist/assets/js/demo/sidebar-scrollspy.demo.js"></script>*@
+
+    <script>
+        function CALL_NOTIF(Msg) {
+            $('#TOAST_BODY').text(Msg);
+            $('.toast').toast('show');
+        }
+    </script>
+
+</body>
+</html>

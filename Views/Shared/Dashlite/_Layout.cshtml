@@ -1,0 +1,220 @@
+@{
+    string ROLE = @ViewBag.GROUPS_MDM;
+}
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+
+<head>
+    <base href="../../">
+    <meta charset="utf-8">
+    <meta name="author" content="DENI ANDREAN">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="DENI ANDREAN">
+    <link rel="shortcut icon" type="image/x-icon" href="~/Theme/RFQ/LOGO1.png">
+    <title>@ViewBag.Title - @ViewBag.APPNAME</title>
+    <link rel="stylesheet" href="~/Theme/DASHLITE/demo1/src/assets/css/dashlite.css">
+    <link rel="stylesheet" href="~/Theme/DASHLITE/demo1/src/assets/css/theme.css">
+    <link rel="stylesheet" href="~/Theme/DASHLITE/demo1/src/assets/css/skins/theme-blue.css">
+    @*<link rel="stylesheet" href="~/Theme/bootstrap-multiselect.min.css">*@
+    @Scripts.Render("~/bundles/jquery")
+</head>
+
+<body class="nk-body bg-lighter npc-general has-sidebar">
+    <div class="nk-app-root">
+        <div class="nk-main ">
+            <div class="nk-sidebar nk-sidebar-fixed is-theme" data-content="sidebarMenu">
+                <div class="nk-sidebar-element nk-sidebar-head">
+                    <div class="nk-menu-trigger">
+                        <a href="#" class="nk-nav-toggle nk-quick-nav-icon d-xl-none" data-target="sidebarMenu"><em class="icon ni ni-arrow-left"></em></a>
+                        <a href="#" class="nk-nav-compact nk-quick-nav-icon d-none d-xl-inline-flex" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
+                    </div>
+                    <div class="nk-sidebar-brand">
+                        <a href="~/" class="logo-link nk-sidebar-logo">
+                            <h6 style="color:white">@ViewBag.APPNAME</h6>
+                            <h6 style="color:white; font-size:8px">[@ViewBag.VERSION]</h6>
+                        </a>
+                    </div>
+                </div>
+                <div class="nk-sidebar-element nk-sidebar-body">
+                    <div class="nk-sidebar-content">
+                        <div class="nk-sidebar-menu" data-simplebar>
+                            <ul class="nk-menu" id="MenuList">
+                            </ul>
+                        </div>
+                        @*<div class="nk-footer-copyright">
+                            <a style="font-size:10px">@ViewBag.VERSION - @ViewBag.BUILDTIME</a>
+                        </div>*@
+                    </div>
+                </div>
+            </div>
+            <div class="nk-wrap ">
+                <div class="nk-header nk-header-fixed is-theme">
+                    <div class="container-fluid">
+                        <div class="nk-header-wrap">
+                            <div class="nk-menu-trigger d-xl-none ms-n1">
+                                <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
+                            </div>
+                            <div class="nk-header-brand d-xl-none">
+                                <a href="html/index.html" class="logo-link">
+                                    <h6 style="color:white">@ViewBag.APPNAME</h6>
+                                    <h6 style="color:white; font-size:8px">[@ViewBag.VERSION]</h6>
+                                </a>
+                            </div>
+                            <div class="nk-header-news d-none d-xl-block">
+
+                            </div>
+                            <div class="nk-header-tools">
+                                <ul class="nk-quick-nav">
+
+                                    <li class="dropdown user-dropdown">
+                                        <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
+                                            <div class="user-toggle">
+                                                <div class="user-avatar sm">
+                                                    <em class="icon ni ni-user-alt"></em>
+                                                </div>
+                                                <div class="user-info d-none d-md-block">
+                                                    <div class="user-name">@ViewBag.NAME</div>
+                                                    <div class="user-name dropdown-indicator">@ViewBag.GROUPS_PBI</div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-md dropdown-menu-end dropdown-menu-s1">
+                                            <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
+                                                <div class="user-card">
+                                                    <div class="user-avatar">
+                                                        <span>@ViewBag.INITIALS</span>
+                                                    </div>
+                                                    <div class="user-info">
+                                                        <span class="lead-text">@ViewBag.NAME</span>
+                                                        <span class="sub-text">@ViewBag.GROUPS_PBI (@ViewBag.DEPARTMENT)</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown-inner">
+                                                <ul class="link-list">
+                                                    <li><a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>Dark Mode</span></a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="dropdown-inner">
+                                                <ul class="link-list">
+                                                    <li><a href="@Url.Action("Logout", "Account")"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="dropdown-inner">
+                                                <ul class="link-list">
+                                                    <li><a>V @ViewBag.VERSION - @ViewBag.BUILDTIME</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-inner">
+                            <div class="nk-content-body">
+                                @RenderBody()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nk-footer">
+                    <div class="container-fluid">
+                        <div class="nk-footer-wrap">
+                            <div class="nk-footer-copyright">
+                                <a>@ViewBag.INFO</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+
+    <script src="~/Theme/DASHLITE/demo1/src/assets/js/bundle.js"></script>
+    <script src="~/Theme/DASHLITE/demo1/src/assets/js/scripts.js"></script>
+    <script src="~/Theme/DASHLITE/demo1/src/assets/js/charts/gd-default.js"></script>
+    <script src="~/Theme/DASHLITE/demo1/src/assets/js/charts/gd-analytics.js"></script>
+    <script src="~/Theme/DASHLITE/demo1/src/assets/js/charts/gd-invest.js"></script>
+    <script src="~/Theme/DASHLITE/demo1/src/assets/js/example-sweetalert.js"></script>
+    <script src="~/Theme/DASHLITE/demo1/src/assets/js/example-toastr.js"></script>
+    <script src="~/Theme/DASHLITE/demo1/src/assets/js/libs/dual-listbox.js"></script>
+    <script src="~/Theme/DASHLITE/demo1/src/assets/js/libs/jstree.js"></script>
+    <script src="~/Theme/DASHLITE/demo1/src/assets/js/example-tree.js"></script>
+    <script src="~/Theme/DASHLITE/demo1/src/assets/js/libs/editors/quill.js"></script>
+    <script src="~/Theme/DASHLITE/demo1/src/assets/js/libs/editors/summernote.js"></script>
+    <script src="~/Theme/DASHLITE/demo1/src/assets/js/libs/editors/tinymce.js"></script>
+    <script src="~/Theme/DASHLITE/demo1/src/assets/js/editors.js"></script>
+    <script src="~/Theme/DASHLITE/demo1/src/assets/js/libs/datatable-btns.js"></script>
+    <script src="~/Theme/DASHLITE/demo1/src/assets/js/libs/fullcalendar.js"></script>
+    <script src="~/Theme/DASHLITE/demo1/src/assets/js/apps/calendar.js"></script>
+    <script src="~/Theme/DASHLITE/demo1/src/assets/js/libs/jkanban.js"></script>
+    <script src="~/Theme/DASHLITE/demo1/src/assets/js/apps/kanban.js"></script>
+    <script src="~/Theme/DASHLITE/demo1/src/assets/js/libs/jqvmap.js"></script>
+    <script src="~/Theme/DASHLITE/demo1/src/assets/js/libs/tagify.js"></script>
+    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.js"></script>
+
+    <script src="~/Theme/bootstrap-multiselect.min.js"></script>
+
+
+    <script>
+        function CALL_NOTIF(Msg) {
+            alert(Msg)
+        }
+
+        $(document).ready(function () {
+            GET_MENU_LIST();
+            @*alert("BUILD TIME: " '@ViewBag.BUILDTIME');*@
+        });
+
+        function GET_MENU_LIST() {
+            var URL = "@Url.Action("GET_MENU_LIST", "MASTERDATA")";
+            $.ajax({
+                type: "POST",
+                url: URL,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var count = data.res.length;
+                    var html = '';
+                    for (let i = 0; i < count; i++) {
+                        if (data.res[i].PARENT === "AR") {
+                            html += `
+                                <li class="nk-menu-heading">
+                                    <h6 class="overline-title text-primary-alt">`+ data.res[i].NAME + `</h6>
+                                </li>
+                            `;
+                        }
+                        else {
+                            let url = `PBI/${data.res[i].CONTROLLER}/${data.res[i].ACTION}`;
+                            html += `
+                                <li class="nk-menu-item">
+                                    <a href="${url}" class="nk-menu-link">
+                                        <span class="nk-menu-icon"><em class="`+ data.res[i].ICON + `"></em></span>
+                                        <span class="nk-menu-text">`+ data.res[i].NAME + `</span>
+                                    </a>
+                                </li>
+                            `;
+                        }
+                    }
+                    $('#MenuList').append(html);
+                },
+                error: function (request, status, error) {
+
+                }
+            });
+        }
+
+        @*function GETINFO() {
+            alert("BUILD TIME:" '@ViewBag.BUILDTIME');
+        }*@
+    </script>
+</body>
+
+</html>

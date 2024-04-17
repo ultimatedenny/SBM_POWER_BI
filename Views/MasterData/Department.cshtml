@@ -1,0 +1,350 @@
+@{
+    Layout = "~/Views/Shared/Dashlite/_Layout.cshtml";
+    ViewBag.Title = "Department";
+}
+<style>
+    .full_screen {
+        width: 100vw;
+        position: fixed;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        z-index: 100;
+    }
+</style>
+<div class="nk-block-head nk-block-head-sm">
+    <div class="nk-block-between">
+        <div class="nk-block-head-content">
+            <h3 class="nk-block-title page-title">Master Data</h3>
+        </div>
+    </div>
+</div>
+<div>
+    <div class="card card-bordered" id="media_wrapper">
+        <div class="card-inner border-bottom">
+            <div class="card-title-group">
+                <div class="card-title">
+                    <h6 class="title">@ViewBag.Title</h6>
+                </div>
+                <div class="card-tools">
+                    @*<span onclick="ADD()" class="nk-menu-icon"><em class="icon ni ni-plus"></em></span>*@
+                    <span onclick="toggleFullscreen()" class="nk-menu-icon"><em class="icon ni ni-expand"></em></span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-fill alert-icon alert-primary" role="alert">
+                <em class="icon ni ni-alert-circle"></em>
+                <strong>Info</strong> : Department data is being synchronized from the <b>MDCDB</b>. Any modification please refer to to there.
+            </div>
+            <div id="recent-item" class="grid">
+                <table id="table_1" class="table text-nowrap table-bordered w-100">
+                    <thead>
+                        <tr>
+                            @*<th></th>*@
+                            <th>NO</th>
+                            <th>ID</th>
+                            <th>NAME</th>
+                            <th>DESCRIPTION</th>
+                            <th>CREATE USER</th>
+                            <th>CREATE DATE</th>
+                            <th>UPDATE USER</th>
+                            <th>UPDATE DATE</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="MODAL_ADD" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="HEADER_MODAL">Add Department</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="javascript:ACTION()">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group mb-3">
+                                <label class="form-label">ID</label>
+                                <input class="form-control" type="text" placeholder="ID (max: 5 characters)" required id="DEPARTMENT_ID" autocomplete="off" maxlength="5">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label">NAME</label>
+                                <input class="form-control" type="text" placeholder="Name (max: 15 characters)" required id="DEPARTMENT_NAME" autocomplete="off" maxlength="15">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label">DESCRIPTION</label>
+                                <input class="form-control" type="text" placeholder="Description (max: 150 characters)" id="DEPARTMENT_DESC" autocomplete="off" maxlength="150">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dim btn-outline-secondary" data-bs-dismiss="modal">
+                        <span class="nk-menu-icon"><em class="icon ni ni-cross"></em></span>
+                    </button>
+                    <button type="submit" class="btn btn-dim btn-outline-primary">
+                        <span class="nk-menu-icon"><em class="icon ni ni-save"></em></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="MODAL_DELETE">
+    <div class="modal-dialog modal-dialog-centered modal ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="HEADER_MODAL_2">Delete Department</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="javascript:DELETE_DEPARTMENT()">
+                <div class="modal-body">
+                    <label class="form-label">Are you going to delete ?</label>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group mb-3">
+                                <input class="form-control" type="text" placeholder="DEPARTMENT ID" required id="DEPARTMENT_ID_DEL" autocomplete="off" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dim btn-outline-secondary" data-bs-dismiss="modal">
+                        <span class="nk-menu-icon"><em class="icon ni ni-cross"></em></span>
+                    </button>
+                    <button type="submit" class="btn btn-dim btn-outline-danger">
+                        <span class="nk-menu-icon"><em class="icon ni ni-trash"></em></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function toggleFullscreen() {
+        let media_card = document.getElementById("media_wrapper");
+        if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement) {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            }
+        }
+        else {
+            if (media_card.requestFullscreen) {
+                media_card.requestFullscreen();
+            } else if (media_card.webkitRequestFullscreen) {
+                media_card.webkitRequestFullscreen();
+            } else if (media_card.mozRequestFullScreen) {
+                media_card.mozRequestFullScreen();
+            }
+        }
+    }
+
+    $(document).ready(function () {
+        GET_DEPARTMENT();
+    });
+
+    function GET_DEPARTMENT() {
+        var URL = "@Url.Action("GET_DEPARTMENT", "MASTERDATA")";
+        var attr = {
+            "responsive": false,
+            "scrollX": true,
+            "autoWidth": true,
+            "dom": "<\"row justify-between g-2 with-export\"<\"col-7 col-sm-4 text-start\"f><\"col-5 col-sm-8 text-end\"<\"datatable-filter\"<\"d-flex justify-content-end g-2\"<\"dt-export-buttons d-flex align-center\"<\"dt-export-title d-none d-md-inline-block\">B>l>>>><\"datatable-wrap my-3\"t><\"row align-items-center\"<\"col-7 col-sm-12 col-md-9\"p><\"col-5 col-sm-12 col-md-3 text-start text-md-end\"i>>",
+            "language": {
+                "search": "",
+                "searchPlaceholder": "Type in to Search",
+                "lengthMenu": "<span class='d-none d-sm-inline-block'>Show</span><div class='form-control-select'> _MENU_ </div>",
+                "info": "_START_ -_END_ of _TOTAL_",
+                "infoEmpty": "0",
+                "infoFiltered": "( Total _MAX_  )",
+                "paginate": {
+                    "first": "First",
+                    "last": "Last",
+                    "next": "Next",
+                    "previous": "Prev"
+                }
+            },
+            "ajax": {
+                "url": URL,
+                "type": "GET",
+                "datatype": "json",
+                "data": function (a) {
+                    return $.extend({}, a, {});
+                }
+            },
+            "columns": [
+                //{
+                //    "render": function (data, type, full, meta) {
+                //        var EDIT_BTN = '<a onclick="DETAIL_DEPARTMENT(\'' + full.ID + '\')" class="btn btn-dim btn-icon btn-sm btn-warning"><em class="icon ni ni-edit"></em></a>';
+                //        var DELT_BTN = '<a onclick="SHOW_DELETE_DEPARTMENT(\'' + full.ID + '\')" class="btn btn-dim btn-icon btn-sm btn-danger"><em class="icon ni ni-trash"></em></a>';
+                //        return EDIT_BTN + '&nbsp;' + DELT_BTN;
+                //    }
+                //},
+                { "data": 'ID' },
+                { "data": 'DEPARTMENT_ID' },
+                { "data": 'DEPARTMENT_NAME' },
+                { "data": 'DEPARTMENT_DESC' },
+                { "data": 'CREATE_USER' },
+                { "data": 'CREATE_DATE' },
+                { "data": 'UPDATE_USER' },
+                { "data": 'UPDATE_DATE' }
+            ]
+        };
+        $("#table_1").DataTable(attr);
+    }
+
+    function ADD() {
+        $('#MODAL_ADD').modal('toggle');
+        $('#HEADER_MODAL').text("Add Department")
+        $('#DEPARTMENT_ID').val("");
+        $('#DEPARTMENT_NAME').val("");
+        $('#DEPARTMENT_DESC').val("");
+    }
+
+    function ACTION() {
+        var URL = "";
+        var type = $('#HEADER_MODAL').text();
+        if (type == "Add Department") {
+            URL = "@Url.Action("ADD_DEPARTMENT", "MASTERDATA")";
+            var MODEL = {
+                DEPARTMENT_ID: $("#DEPARTMENT_ID").val(),
+                DEPARTMENT_NAME: $("#DEPARTMENT_NAME").val(),
+                DEPARTMENT_DESC: $("#DEPARTMENT_DESC").val()
+            };
+            $.ajax({
+                type: "POST",
+                url: URL,
+                data: '{MODEL: ' + JSON.stringify(MODEL) + '}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $('#DEPARTMENT_ID').val("");
+                    $('#DEPARTMENT_NAME').val("");
+                    $('#DEPARTMENT_DESC').val("");
+                    $('#MODAL_ADD').modal('toggle');
+                    CALL_NOTIF(data.res.Message);
+                    $("#table_1").DataTable().ajax.reload();
+                },
+                error: {
+
+                }
+            });
+    }
+        else {
+            var HEADER_TEXT = $("#HEADER_MODAL").text();
+            var ID = HEADER_TEXT.split(":")[1].trim();
+            URL = "@Url.Action("EDIT_DEPARTMENT", "MASTERDATA")";
+            var MODEL = {
+                ID: ID,
+                DEPARTMENT_ID: $("#DEPARTMENT_ID").val(),
+                DEPARTMENT_NAME: $("#DEPARTMENT_NAME").val(),
+                DEPARTMENT_DESC: $("#DEPARTMENT_DESC").val()
+            };
+            $.ajax({
+                type: "POST",
+                url: URL,
+                data: '{MODEL: ' + JSON.stringify(MODEL) + '}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $('#DEPARTMENT_ID').val("");
+                    $('#DEPARTMENT_NAME').val("");
+                    $('#DEPARTMENT_DESC').val("");
+                    $('#MODAL_ADD').modal('toggle');
+                    CALL_NOTIF(data.res.Message);
+                    $("#table_1").DataTable().ajax.reload();
+                },
+                error: {
+                    function(request, status, error) {
+
+                    }
+                }
+            });
+        }
+    }
+
+    function DETAIL_DEPARTMENT(ID) {
+        var URL = "@Url.Action("DETAIL_DEPARTMENT", "MASTERDATA")";
+        var MODEL = {
+            ID: ID
+        };
+        $.ajax({
+            type: "POST",
+            url: URL,
+            data: '{MODEL: ' + JSON.stringify(MODEL) + '}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $('#MODAL_ADD').modal('toggle');
+                $('#DEPARTMENT_ID').val(data.res[0].DEPARTMENT_ID);
+                $('#DEPARTMENT_NAME').val(data.res[0].DEPARTMENT_NAME);
+                $('#DEPARTMENT_DESC').val(data.res[0].DEPARTMENT_DESC);
+                $('#HEADER_MODAL').text("Edit Department: " + data.res[0].ID)
+            },
+            error: {
+                function(request, status, error) {
+
+                }
+            }
+        });
+    }
+
+    function SHOW_DELETE_DEPARTMENT(ID) {
+        $('#DEPARTMENT_ID_DEL').val(ID)
+        $('#MODAL_DELETE').modal('toggle');
+    }
+
+    function DELETE_DEPARTMENT() {
+        var URL = "@Url.Action("DELETE_DEPARTMENT", "MASTERDATA")";
+        var MODEL = {
+            ID: $('#DEPARTMENT_ID_DEL').val()
+        };
+        $.ajax({
+            type: "POST",
+            url: URL,
+            data: '{MODEL: ' + JSON.stringify(MODEL) + '}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $('#MODAL_DELETE').modal('toggle');
+                CALL_NOTIF(data.res.Message);
+                $("#table_1").DataTable().ajax.reload();
+            },
+            error: {
+                function(request, status, error) {
+                    LOADING_HIDE();
+                    ShowError("SINGLE_ADD", request.responseText);
+                }
+            }
+        });
+    }
+
+    function PRINT() {
+        var table = $("#table_1").DataTable(option);
+        $(".buttons-print").click();
+    }
+
+    function COPY() {
+        var table = $("#table_1").DataTable(option);
+        $(".buttons-copy").click();
+    }
+
+    function COPY() {
+        var table = $("#table_1").DataTable(option);
+        $(".buttons-csv").click();
+    }
+
+</script>

@@ -1,0 +1,43 @@
+@{
+    ViewBag.Title = "Error";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="DENI ANDREAN">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="DENI ANDREAN">
+    <link rel="shortcut icon" type="image/x-icon" href="~/Theme/RFQ/LOGO1.png">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/Theme/DASHLITE/demo1/src/assets/css/dashlite.css">
+    <link rel="stylesheet" href="~/Theme/DASHLITE/demo1/src/assets/css/theme.css">
+    <link rel="stylesheet" href="~/Theme/DASHLITE/demo1/src/assets/css/skins/theme-blue.css">
+    @*<link rel="stylesheet" href="~/Theme/bootstrap-multiselect.min.css">*@
+    @Scripts.Render("~/bundles/jquery")
+</head>
+
+<body class="nk-body bg-white npc-general pg-error">
+    <div class="nk-app-root">
+        <div class="nk-main ">
+            <div class="nk-wrap nk-wrap-nosidebar">
+                <div class="nk-content ">
+                    <div class="nk-block nk-block-middle wide-xs mx-auto">
+                        <div class="nk-block-content nk-error-ld text-center">
+                            <h1 class="nk-error-head">404</h1>
+                            <h3 class="nk-error-title">Oops! Why you’re here?</h3>
+                            <p class="nk-error-text">We are very sorry for inconvenience. It looks like you’re try to access a page that either has been never existed or you are not allowed</p>
+                            <a href="@Url.Action("Login","Account")" class="btn btn-lg btn-primary mt-2">Back To Home</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Theme/DASHLITE/demo1/src/assets/js/bundle.js?ver=3.2.2"></script>
+    <script src="~/Theme/DASHLITE/demo1/src/assets/js/scripts.js?ver=3.2.2"></script>
+</body>
+
+</html>

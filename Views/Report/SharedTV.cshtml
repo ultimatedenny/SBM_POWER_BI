@@ -1,0 +1,93 @@
+@{
+    Layout = "~/Views/Shared/AspStudio/_Layout_Detail_New_TV.cshtml";
+    ViewBag.Title = "Shared TV";
+}
+<!-- Add this in your HTML -->
+
+
+<style>
+    body {
+        margin: 0;
+    }
+    iframe {
+        display: block;
+        background: #ffffff;
+        border: none;
+        height: calc(100vh - 3.75rem);
+        width: 100%;
+    }
+</style>
+
+<div id="carousel">
+    <div class="card">
+        <div class="card-body" style="padding: 0px">
+            <div id="carouselExample" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+
+                </ol>
+                <div class="carousel-inner">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        //HIDE();
+        LOAD_FRAME();
+    });
+
+    function LOAD_FRAME() {
+        var URL = "@Url.Action("LOAD_FRAME", "REPORT")";
+        var MODEL = {
+            ID: '@ViewBag.REPORT_ID'
+        };
+        $.ajax({
+            type: "POST",
+            url: URL,
+            data: JSON.stringify({ MODEL: MODEL }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var iframeUrls = [];
+                for (let i = 0; i < data.res.length; i++) {
+                    iframeUrls.push(data.res[i].REPORT_URL);
+                }
+                var carouselIndicators = $('.carousel-indicators');
+                var carouselInner = $('.carousel-inner');
+                for (var i = 0; i < iframeUrls.length; i++) {
+                    carouselIndicators.append('<li data-bs-target="#carouselExample" data-bs-slide-to="' + i + '" ' + (i === 0 ? 'class="active"' : '') + '></li>');
+                    carouselInner.append('<div class="carousel-item ' + (i === 0 ? 'active' : '') + '">'
+                        + '<iframe id=iframepowerbi sandbox="allow-same-origin allow-scripts allow-forms allow-popups" src="' + iframeUrls[i] + '" alt="" class="d-block w-100"></iframe>'
+                        + '</div>');
+                }
+                setInterval(clickNextButton, 30000);
+            },
+            error: function (request, status, error) {
+
+            }
+        });
+    }
+
+    function clickNextButton() {
+        var nextButton = document.getElementById('btn_next');
+        if (nextButton) {
+            nextButton.click();
+        }
+    }
+
+    function HIDE() {
+        window.open('CallPBI:0');
+    }
+
+    function SHOW() {
+        window.open('CallPBI:1');
+    }
+
+</script>
+
+
+

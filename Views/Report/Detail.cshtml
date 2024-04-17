@@ -1,0 +1,42 @@
+@{
+    Layout = "~/Views/Shared/AspStudio/_Layout_Detail_New.cshtml";
+    ViewBag.Title = "Detail";
+}
+<!-- Add this in your HTML -->
+
+
+<style>
+    body {
+        margin: 0;
+    }
+
+    iframe {
+        display: block;
+        background: #ffffff;
+        border: none;
+        height: calc(100vh - 3.75rem);
+        width: 100%;
+    }
+</style>
+<style type="text/css" media="print">
+        body {
+            visibility: hidden;
+            display: none
+        }
+    </style>
+<iframe id="iframepowerbi" sandbox="allow-same-origin allow-scripts allow-forms allow-popups" src="@ViewBag.REPORT_URL"></iframe>
+
+
+<script>
+    $(document).ready(function () {
+        //HIDE();
+
+    });
+    function HIDE() {
+        window.open('CallPBI:0');
+    }
+
+    function SHOW() {
+        window.open('CallPBI:1');
+    }
+</script>

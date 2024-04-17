@@ -1,0 +1,352 @@
+@{
+    Layout = "~/Views/Shared/Dashlite/_Layout.cshtml";
+    ViewBag.Title = "Manage Link";
+}
+<div class="nk-content-inner">
+    <div class="nk-content-body">
+        <div class="nk-block">
+            <div class="card card-bordered">
+                <div class="card-aside-wrap">
+                    <div class="card-inner card-inner-lg">
+                        <div class="nk-block-head nk-block-head-lg">
+                            <div class="nk-block-between">
+                                <div class="nk-block-head-content">
+                                    <h4 class="nk-block-title">Manage Links</h4>
+                                    <div class="nk-block-des">
+                                        <p>Manage Standard and TV links.</p>
+                                    </div>
+                                </div>
+                                <div class="nk-block-head-content align-self-start d-lg-none">
+                                    <a href="#" class="toggle btn btn-icon btn-trigger mt-n1" data-target="userAside"><em class="icon ni ni-menu-alt-r"></em></a>
+                                </div>
+                            </div>
+                        </div><!-- .nk-block-head -->
+                        <div class="nk-block" style="overflow-y:auto">
+                            <div class="nk-data data-list">
+                                <div class="data-head">
+                                    <h6 class="overline-title">My Links</h6>
+                                </div>
+
+                                <table id="table_1" class="table text-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th>TYPE</th>
+                                            <th>EXPIRE</th>
+                                            <th>REPORT</th>
+                                            <th>ACTION</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+
+                            </div>
+
+                        </div>
+
+                        <div class="nk-block">
+                            <div class="nk-data data-list">
+                                <div class="data-head">
+                                    <h6 class="overline-title">Who access my Link</h6>
+                                </div>
+                                <table id="table_2" class="table text-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th>IP</th>
+                                            <th>MACHINE NAME</th>
+                                            <th>DATE TIME</th>
+                                            <th>REPORT</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card-aside card-aside-left user-aside toggle-slide toggle-slide-left toggle-break-lg toggle-screen-lg" data-toggle-body="true" data-content="userAside" data-toggle-screen="lg" data-toggle-overlay="true">
+                        <div class="card-inner-group" data-simplebar="init">
+                            <div class="simplebar-wrapper" style="margin: 0px;">
+                                <div class="simplebar-height-auto-observer-wrapper"><div class="simplebar-height-auto-observer"></div></div><div class="simplebar-mask">
+                                    <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
+                                        <div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content" style="height: auto; overflow: hidden;">
+                                            <div class="simplebar-content" style="padding: 0px;">
+                                                <div class="card-inner">
+                                                    <div class="user-card">
+                                                        <div class="user-avatar bg-primary">
+                                                            <span>@ViewBag.INITIALS</span>
+                                                        </div>
+                                                        <div class="user-info">
+                                                            <span class="lead-text">@ViewBag.NAME</span>
+                                                            <span class="sub-text">@ViewBag.EMAIL</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-inner p-0">
+                                                    <ul class="link-list-menu">
+                                                        <li><a href="@Url.Action("Index","Profile")"><em class="icon ni ni-user-fill-c"></em><span>Personal Infomation</span></a></li>
+                                                        <li><a class="active" href="@Url.Action("Link","Profile")"><em class="icon ni ni-link-h"></em><span>Manage Link</span></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><div class="simplebar-placeholder" style="width: auto; height: 504px;"></div>
+                            </div><div class="simplebar-track simplebar-horizontal" style="visibility: hidden;"><div class="simplebar-scrollbar" style="width: 0px; display: none;"></div></div><div class="simplebar-track simplebar-vertical" style="visibility: hidden;"><div class="simplebar-scrollbar" style="height: 0px; display: none;"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="MODAL_EDIT" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="HEADER_MODAL">Edit Time</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="javascript:EDIT_TIME()">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <label class="form-label">NEW EXPIRE DATE</label>
+                            <div class="form-control-wrap">
+                                <div class="form-icon form-icon-left"><em class="icon ni ni-calendar"></em></div>
+                                <input type="text" class="form-control" id="URL_EXPI">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dim btn-outline-secondary" data-bs-dismiss="modal">
+                        <span class="nk-menu-icon"><em class="icon ni ni-cross"></em></span>
+                    </button>
+                    <button type="submit" class="btn btn-dim btn-outline-primary">
+                        <span class="nk-menu-icon"><em class="icon ni ni-save"></em></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="MODAL_INFO" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 id="HEADER_MODAL_INFO"></h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="BODY_INFO"></p>
+            </div>
+            <div class="modal-footer">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<label class="form-label" style="visibility:hidden">URL ID</label>
+<div class="form-group mb-3" style="visibility:hidden">
+    <input class="form-control" type="text" placeholder="REPORT_ID" required id="REPORT_ID" autocomplete="off" readonly>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        GET_MY_LINK();
+        GET_MY_LOG_LINK();
+    });
+
+    function GET_MY_LINK() {
+        var URL = "@Url.Action("GET_MY_LINK", "PROFILE")";
+        var attr = {
+            "responsive": {
+                "details": false
+            },
+            "scrollX": false,
+            "autoWidth": true,
+            "columnDefs": [
+                { width: '80px', targets: '_all' } // Set width to 150px for all columns
+            ],
+            "dom": "<\"row justify-between g-2 with-export\"<\"col-7 col-sm-4 text-start\"f><\"col-5 col-sm-8 text-end\"<\"datatable-filter\"<\"d-flex justify-content-end g-2\"<\"dt-export-buttons d-flex align-center\"<\"dt-export-title d-none d-md-inline-block\">B>l>>>><\"datatable-wrap my-3\"t><\"row align-items-center\"<\"col-7 col-sm-12 col-md-9\"p><\"col-5 col-sm-12 col-md-3 text-start text-md-end\"i>>",
+            "language": {
+                "search": "",
+                "searchPlaceholder": "Type in to Search",
+                "lengthMenu": "<span class='d-none d-sm-inline-block'>Show</span><div class='form-control-select'> _MENU_ </div>",
+                "info": "_START_ -_END_ of _TOTAL_",
+                "infoEmpty": "0",
+                "infoFiltered": "( Total _MAX_  )",
+                "paginate": {
+                    "first": "First",
+                    "last": "Last",
+                    "next": "Next",
+                    "previous": "Prev"
+                }
+            },
+            "ajax": {
+                "url": URL,
+                "type": "GET",
+                "datatype": "json",
+                "data": function (a) {
+                    return $.extend({}, a, {});
+                }
+            },
+            "columns": [
+                {
+                    "render": function (data, type, full, meta) {
+                        if (full.URL_TYPE === 'Std. Organization') {
+                            return '<a onclick="INFO(\'' + full.URL_TYPE + '\')" class="btn btn-sm btn-outline-success"><em class="icon ni ni-shield-check"></em><span>' + full.URL_TYPE + '</span> </a>';
+                        }
+                        else if (full.URL_TYPE === 'TV Organization') {
+                            return '<a onclick="INFO(\'' + full.URL_TYPE + '\')" class="btn btn-sm btn-outline-success"><em class="icon ni ni-shield-check"></em><span>' + full.URL_TYPE + '</span> </a>';
+                        }
+                        else if (full.URL_TYPE === 'Std. Customer') {
+                            return '<a onclick="INFO(\'' + full.URL_TYPE + '\')" class="btn btn-sm btn-outline-warning"><em class="icon ni ni-shield-alert"></em><span>' + full.URL_TYPE + '</span> </a>';
+                        }
+                        else if (full.URL_TYPE === 'TV Customer') {
+                            return '<a onclick="INFO(\'' + full.URL_TYPE + '\')" class="btn btn-sm btn-outline-danger"><em class="icon ni ni-shield-off"></em><span>' + full.URL_TYPE + '</span> </a>';
+                        }
+                        else {
+                            return '<a onclick="INFO(\'' + full.URL_TYPE + '\')" class="btn btn-sm btn-outline-secondary"><em class="icon ni ni-question"></em><span>' + full.URL_TYPE + '</span> </a>';
+                        }
+                    }
+                },
+                { "data": 'URL_EXPI' },
+                { "data": 'REPORT_NAME' },
+                {
+                    "render": function (data, type, full, meta) {
+                        var EDT_BTN = '<a onclick="EDIT_TIMES(\'' + full.ID + '\')" class="btn btn-dim btn-icon btn-sm btn-warning"><em class="icon ni ni-pen"></em></a>';
+                        var CPY_BTN = '<a onclick="COPY_VALUE(\'' + full.URL_TEXT + '\')" class="btn btn-dim btn-icon btn-sm btn-secondary"><em class="icon ni ni-copy"></em></a>';
+                        return CPY_BTN + ' ' + EDT_BTN;
+                    }
+                },
+            ]
+        };
+        $("#table_1").DataTable(attr);
+    }
+
+    function GET_MY_LOG_LINK() {
+        var URL = "@Url.Action("GET_MY_LOG_LINK", "PROFILE")";
+        var attr = {
+            "responsive": {
+                "details": false
+            },
+            "scrollX": false,
+            "autoWidth": true,
+            "dom": "<\"row justify-between g-2 with-export\"<\"col-7 col-sm-4 text-start\"f><\"col-5 col-sm-8 text-end\"<\"datatable-filter\"<\"d-flex justify-content-end g-2\"<\"dt-export-buttons d-flex align-center\"<\"dt-export-title d-none d-md-inline-block\">B>l>>>><\"datatable-wrap my-3\"t><\"row align-items-center\"<\"col-7 col-sm-12 col-md-9\"p><\"col-5 col-sm-12 col-md-3 text-start text-md-end\"i>>",
+            "language": {
+                "search": "",
+                "searchPlaceholder": "Type in to Search",
+                "lengthMenu": "<span class='d-none d-sm-inline-block'>Show</span><div class='form-control-select'> _MENU_ </div>",
+                "info": "_START_ -_END_ of _TOTAL_",
+                "infoEmpty": "0",
+                "infoFiltered": "( Total _MAX_  )",
+                "paginate": {
+                    "first": "First",
+                    "last": "Last",
+                    "next": "Next",
+                    "previous": "Prev"
+                }
+            },
+            "ajax": {
+                "url": URL,
+                "type": "GET",
+                "datatype": "json",
+                "data": function (a) {
+                    return $.extend({}, a, {});
+                }
+            },
+            "columns": [
+                { "data": 'ID' },
+                { "data": 'URL_TEXT' },
+                { "data": 'URL_EXPI' },
+                { "data": 'REPORT_NAME' },
+            ]
+        };
+        $("#table_2").DataTable(attr);
+    }
+
+    function COPY_VALUE(VALUE) {
+        navigator.clipboard.writeText(VALUE);
+        alert("Copied to your clipboard");
+    }
+
+    function EDIT_TIMES(ID) {
+        $('#URL_EXPI').datepicker({
+            format: "yyyy-mm-dd",
+            todayBtn: "linked",
+            clearBtn: true,
+            daysOfWeekDisabled: "0,6",
+            daysOfWeekHighlighted: "0,6",
+            autoclose: true,
+            todayHighlight: true,
+            startDate: new Date()
+        });
+        $('#MODAL_EDIT').modal('toggle');
+        $("#REPORT_ID").val(ID);
+    }
+
+    function EDIT_TIME() {
+        var URL = "";
+        var MODEL;
+        URL = "@Url.Action("EDIT_TIME", "PROFILE")";
+        MODEL = {
+            ID: $("#REPORT_ID").val(),
+            URL_EXPI: $("#URL_EXPI").val()
+        };
+        $.ajax({
+            type: "POST",
+            url: URL,
+            data: '{MODEL: ' + JSON.stringify(MODEL) + '}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $('#MODAL_EDIT').modal('toggle');
+                $("#table_1").DataTable().ajax.reload();
+                $("#table_2").DataTable().ajax.reload();
+            },
+            error: {
+                function(request, status, error) {
+                    LOADING_HIDE();
+                }
+            }
+        });
+    }
+
+    function INFO(URL_TYPE) {
+        if (URL_TYPE === "Std. Organization") {
+            $("#HEADER_MODAL_INFO").text('Standard Sharing for Organization');
+            var loginSystem = 'Login System:' + '<b>' + ' REQUIRED' + '</b>';
+            var loginOffice365 = 'Login Office 365:' + '<b>' + ' REQUIRED' + '</b>';
+            var powerBILicense = 'Power BI Per-User License:' + '<b>' + ' REQUIRED' + '</b>';
+            var combinedText = loginSystem + '<br>' + loginOffice365 + '<br>' + powerBILicense;
+            $('#BODY_INFO').html(combinedText);
+        }
+        else if (URL_TYPE === "TV Organization") {
+            $("#HEADER_MODAL_INFO").text('TV Sharing for Organization');
+            var loginSystem = 'Login System:' + '<b>' + ' NOT REQUIRED' + '</b>';
+            var loginOffice365 = 'Login Office 365:' + '<b>' + ' REQUIRED' + '</b>';
+            var powerBILicense = 'Power BI Per-User License:' + '<b>' + ' REQUIRED' + '</b>';
+            var combinedText = loginSystem + '<br>' + loginOffice365 + '<br>' + powerBILicense;
+            $('#BODY_INFO').html(combinedText);
+        }
+        else if (URL_TYPE === "Std. Customer") {
+            $("#HEADER_MODAL_INFO").text('Standard Sharing for Customer');
+            var loginSystem = 'Login System:' + '<b>' + ' REQUIRED' + '</b>';
+            var loginOffice365 = 'Login Office 365:' + '<b>' + ' NOT REQUIRED' + '</b>';
+            var powerBILicense = 'Power BI Per-User License:' + '<b>' + ' NOT REQUIRED' + '</b>';
+            var combinedText = loginSystem + '<br>' + loginOffice365 + '<br>' + powerBILicense;
+            $('#BODY_INFO').html(combinedText);
+        }
+        else if (URL_TYPE === "TV Customer") {
+            $("#HEADER_MODAL_INFO").text('TV Sharing for Customer');
+            var loginSystem = 'Login System:' + '<b>' + ' NOT REQUIRED' + '</b>';
+            var loginOffice365 = 'Login Office 365:' + '<b>' + ' NOT REQUIRED' + '</b>';
+            var powerBILicense = 'Power BI Per-User License:' + '<b>' + ' NOT REQUIRED' + '</b>';
+            var combinedText = loginSystem + '<br>' + loginOffice365 + '<br>' + powerBILicense;
+            $('#BODY_INFO').html(combinedText);
+        }
+        $('#MODAL_INFO').modal('toggle');
+    }
+
+</script>

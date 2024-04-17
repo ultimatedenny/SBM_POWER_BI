@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>SBM POWER BI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>@ViewBag.Title - SBM BI</title>
+    <!-- ================== BEGIN core-css ================== -->
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/css/vendor.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/css/app.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/lity/dist/lity.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/bootstrap-table/dist/bootstrap-table.min.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" rel="stylesheet">
+    <link href="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css" rel="stylesheet">
+    <!-- ================== END core-css ================== -->
+    @Scripts.Render("~/bundles/jquery")
+    <style>
+        body {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="app app-content-full-height app-without-sidebar app-without-header">
+        <div id="content" class="app-content p-0">
+            <div class="pos pos-vertical pos-with-header" id="pos">
+                <div class="pos-container">
+                    <div class="pos-header">
+                        <div class="logo">
+                            <a>
+                                <div class="logo-text">SBM POWER BI</div>
+                            </a>
+                        </div>
+                        <div class="time" id="time">00:00</div>
+                        <div class="nav">
+                            <div class="nav-item">
+                                <a class="nav-link" onclick="window.close();">
+                                    <i class="fa fa-home nav-icon"></i>
+                                </a>
+                            </div>
+                            <div class="nav-item">
+                                <a class="nav-link" id="fullscreenButton">
+                                    <i class="fa fa-expand nav-icon"></i>
+                                </a>
+                            </div>
+                            <div class="nav-item">
+                                <a class="nav-link" onclick="DownloadPDF()">
+                                    <i class="fa fa-file-pdf nav-icon"></i>
+                                </a>
+                            </div>
+                            <div class="nav-item">
+                                <a class="nav-link">
+                                    <i class="fa fa-file-image nav-icon"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pos-content">
+                        <div class="pos-content-container h-100 p-0">
+
+                            @RenderBody()
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="theme-panel">
+            <a href="javascript:;" data-click="theme-panel-expand" class="theme-collapse-btn"><i class="fa fa-cog"></i></a>
+            <div class="theme-panel" style="visibility:visible">
+                <a href="javascript:;" data-click="theme-panel-expand" class="theme-collapse-btn"><i class="fa fa-cog"></i></a>
+                <div class="theme-panel-content">
+                    <div class="row mt-5px pt-3px">
+                        <div class="col-9 control-label text-body-emphasis fw-bold">
+                            <div>Dark Mode</div>
+                            <div class="lh-sm fs-13px fw-semibold">
+                                <small class="text-body-emphasis opacity-50">
+                                    Adjust the appearance to reduce glare and give your eyes a break.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-3 d-flex">
+                            <div class="form-check form-switch ms-auto mb-0 mt-2px">
+                                <input type="checkbox" class="form-check-input" name="app-theme-dark-mode" id="appThemeDarkMode" value="1">
+                                <label class="form-check-label" for="appThemeDarkMode">&nbsp;</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="#" data-click="scroll-top" class="btn-scroll-top fade"><i class="fa fa-arrow-up"></i></a>
+        <!-- END btn-scroll-top -->
+    </div>
+
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/js/vendor.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/js/app.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/lity/dist/lity.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/highlightjs/cdn-assets/highlight.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/js/demo/highlightjs.demo.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/chart.js/dist/chart.umd.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/js/demo/widgets.demo.js"></script>
+    @*<script src="~/Theme/ASPSTUDIO/template_html/dist/js/demo/sidebar-scrollspy.demo.js"></script>*@
+
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/bootstrap-table/dist/bootstrap-table.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/js/demo/table-plugins.demo.js"></script>
+
+
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/masonry-layout/dist/masonry.pkgd.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/chart.js/dist/chart.umd.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/moment/min/moment.min.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="~/Theme/ASPSTUDIO/template_html/dist/assets/js/demo/analytics.demo.js"></script>
+    @*<script src="~/Theme/ASPSTUDIO/template_html/dist/assets/js/demo/sidebar-scrollspy.demo.js"></script>*@
+
+    
+    <script src="http://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+
+    <script>
+        function CALL_NOTIF(Msg) {
+            $('#TOAST_BODY').text(Msg);
+            $('.toast').toast('show');
+        }
+    </script>
+    <script>
+
+        function DownloadPDF() {
+            var iframe = document.getElementById('iframepowerbi');
+            if (iframe.contentDocument) {
+                var content = iframe.contentDocument.body;
+                html2pdf(content);
+            } else {
+                alert('Cannot access content of cross-origin iframe.')
+            }
+        }
+
+        function takeScreenshot() {
+            html2canvas(document.body).then(function (canvas) {
+                var dataURL = canvas.toDataURL();
+                var newTab = window.open();
+
+                var downloadLink = document.createElement('a');
+                downloadLink.href = dataURL;
+                downloadLink.download = 'screenshot.png';
+                downloadLink.click();
+
+                newTab.document.write('<img src="' + dataURL + '" />');
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var iframe = document.getElementById('iframepowerbi');
+            var fullscreenButton = document.getElementById('fullscreenButton');
+            function toggleFullscreen(element) {
+                if (!document.fullscreenElement &&
+                    !document.mozFullScreenElement &&
+                    !document.webkitFullscreenElement &&
+                    !document.msFullscreenElement) {
+                    if (element.requestFullscreen) {
+                        element.requestFullscreen();
+                    } else if (element.mozRequestFullScreen) {
+                        element.mozRequestFullScreen();
+                    } else if (element.webkitRequestFullscreen) {
+                        element.webkitRequestFullscreen();
+                    } else if (element.msRequestFullscreen) {
+                        element.msRequestFullscreen();
+                    }
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    } else if (document.mozCancelFullScreen) {
+                        document.mozCancelFullScreen();
+                    } else if (document.webkitExitFullscreen) {
+                        document.webkitExitFullscreen();
+                    } else if (document.msExitFullscreen) {
+                        document.msExitFullscreen();
+                    }
+                }
+            }
+            fullscreenButton.addEventListener('click', function () {
+                toggleFullscreen(iframe);
+            });
+
+            var handleCheckTime = function (i) {
+                "use strict";
+
+                if (i < 10) { i = "0" + i };
+                return i;
+            };
+
+            var handleStartTime = function () {
+                "use strict";
+
+                var today = new Date();
+                var h = today.getHours();
+                var m = today.getMinutes();
+                var s = today.getSeconds();
+                var a;
+                m = handleCheckTime(m);
+                s = handleCheckTime(s);
+                a = (h > 11) ? 'pm' : 'am';
+                h = (h > 12) ? h - 12 : h;
+                document.getElementById('time').innerHTML = h + ":" + m + a;
+                var t = setTimeout(handleStartTime, 500);
+            };
+
+            var handleDatepicker = function () {
+                "use strict";
+
+                $('[data-render="datepicker"]').datepicker({
+                    todayHighlight: true,
+                    autoclose: true
+                });
+            };
+
+            $(document).ready(function () {
+                handleStartTime();
+                handleDatepicker();
+            });
+            function checkAndClickButton() {
+                var button = $('.bibutton.primary.pbi-fluent-button');
+                if (button.length > 0) {
+                    console.log('Signed')
+                    $('.bibutton.primary.pbi-fluent-button').click();
+                    window.location.reload();
+                    clearInterval(checkInterval);
+                }
+            }
+            var checkInterval = setInterval(checkAndClickButton, 1000);
+        });
+
+    </script>
+
+</body>
+</html>
